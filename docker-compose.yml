@@ -1,0 +1,34 @@
+version: "3.8"
+
+services:
+
+  localstack:
+    container_name: localstack
+    image: localstack/localstack:0.14.3.1
+    # network_mode: bridge               # using default docker-compose network_mode to expose localstack to other containers
+    ports:
+      - "127.0.0.1:53:53"                # only required for Pro (DNS)
+      - "127.0.0.1:53:53/udp"            # only required for Pro (DNS)
+      - "127.0.0.1:443:443"              # only required for Pro (LocalStack HTTPS Edge Proxy)
+      - "127.0.0.1:4510-4559:4510-4559"  # external service port range
+      - "127.0.0.1:4566:4566"            # LocalStack Edge Proxy
+    environment:
+      - LOCALSTACK_HOSTNAME=localhost.localstack.cloud  # set this env var to expose localstack to other containers
+      - AWS_ACCESS_KEY_ID=key
+      - AWS_SECRET_ACCESS_KEY=secret
+      - AWS_DEFAULT_REGION=eu-west-1
+      - SERVICES=sns,sqs
+      # ---
+      - DEBUG=${DEBUG-}
+      - DATA_DIR=${DATA_DIR-}
+      - LAMBDA_EXECUTOR=${LAMBDA_EXECUTOR-}
+      - LOCALSTACK_API_KEY=${LOCALSTACK_API_KEY-}  # only required for Pro
+      - HOST_TMP_FOLDER=$PWD/tmp/localstack
+      - DOCKER_HOST=unix:///var/run/docker.sock
+    volumes:
+      - "$PWD/tmp/localstack:/tmp/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    networks:
+      default:
+        aliases:
+          - localhost.localstack.cloud   # set this network aliases to expose localstack to other containers
