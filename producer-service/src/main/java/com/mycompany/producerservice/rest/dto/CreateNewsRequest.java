@@ -9,6 +9,6 @@ import javax.validation.constraints.NotBlank;
 public class CreateNewsRequest {
 
     @NotBlank
-    @Schema(example = "Brazil's Palmeiras win title for second year")
+    @Schema(example = "Copa Libertadores: Brazil's Palmeiras win title for second year")
     private String title;
 }

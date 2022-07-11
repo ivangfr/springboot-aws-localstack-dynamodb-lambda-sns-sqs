@@ -91,11 +91,12 @@ In this project, we are going to use [`LocalStack`](https://localstack.cloud/) t
 
 ## Application URL
 
-| Application        | Type       | URL                                         | Screenshot                                              |
-|--------------------|------------|---------------------------------------------|---------------------------------------------------------|
-| `producer-service` | Swagger    | http://localhost:9080/swagger-ui/index.html | ![swagger](documentation/producer-service-swagger.jpeg) |
+| Application        | Type    | URL                                         | Screenshot                                              |
+|--------------------|---------|---------------------------------------------|---------------------------------------------------------|
+| `producer-service` | Swagger | http://localhost:9080/swagger-ui/index.html | ![swagger](documentation/producer-service-swagger.jpeg) |
+| `consumer-service` | UI      | http://localhost:9081/                      | ![swagger](documentation/consumer-service-ui.jpeg)      |
 
-## Publishing a news
+## Publishing news
 
 - In a terminal, run the following command
   ```
@@ -103,8 +104,13 @@ In this project, we are going to use [`LocalStack`](https://localstack.cloud/) t
     -H 'Content-Type: application/json' \
     -d '{"title": "Palmeiras is three-time champion of the Copa Libertadores da América"}'
   ```
+  
+  or randomly
+  ```
+  curl -i -X POST http://localhost:9080/api/news/randomly
+  ```
 
-- Check `consumer-service` logs
+- Check `consumer-service` UI or logs
 
 ## Shutdown
 
