@@ -10,10 +10,10 @@
     </parent>
 
     <groupId>com.mycompany</groupId>
-    <artifactId>springboot-aws-localstack-sns-sqs</artifactId>
+    <artifactId>springboot-aws-localstack-dynamodb-sns-sqs</artifactId>
     <version>1.0.0</version>
     <packaging>pom</packaging>
-    <name>springboot-aws-localstack-sns-sqs</name>
+    <name>springboot-aws-localstack-dynamodb-sns-sqs</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>

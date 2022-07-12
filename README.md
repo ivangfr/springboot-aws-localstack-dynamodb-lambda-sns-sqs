@@ -1,4 +1,4 @@
-# springboot-aws-localstack-sns-sqs
+# springboot-aws-localstack-dynamodb-sns-sqs
 
 In this project, we are going to use [`LocalStack`](https://localstack.cloud/) to simulate locally, some services provided by [`AWS Cloud`](https://aws.amazon.com/) such as [`SNS`](https://aws.amazon.com/sns/) and [`SQS`](https://aws.amazon.com/sqs/).
 
@@ -24,7 +24,7 @@ In this project, we are going to use [`LocalStack`](https://localstack.cloud/) t
 
 ## Start and Initialize LocalStack
 
-- In a terminal, make sure you are in inside `springboot-aws-localstack-sns-sqs` root folder
+- In a terminal, make sure you are in inside `springboot-aws-localstack-dynamodb-sns-sqs` root folder
 
 - Start `LocalStack` Docker container
   ```
@@ -44,7 +44,7 @@ In this project, we are going to use [`LocalStack`](https://localstack.cloud/) t
 
 - **producer-service**
 
-  - In a terminal, make sure you are inside `springboot-aws-localstack-sns-sqs` root folder
+  - In a terminal, make sure you are inside `springboot-aws-localstack-dynamodb-sns-sqs` root folder
   - Run the following command to start the application
     ```
     ./mvnw clean spring-boot:run --projects producer-service -Dspring-boot.run.jvmArguments="-Daws.accessKey=key -Daws.secretAccessKey=secret"
@@ -52,7 +52,7 @@ In this project, we are going to use [`LocalStack`](https://localstack.cloud/) t
 
 - **consumer-service**
 
-  - In a new terminal, navigate to `springboot-aws-localstack-sns-sqs` root folder
+  - In a new terminal, navigate to `springboot-aws-localstack-dynamodb-sns-sqs` root folder
   - Run the command below to start the application
     ```
     ./mvnw clean spring-boot:run --projects consumer-service -Dspring-boot.run.jvmArguments="-Daws.accessKey=key -Daws.secretAccessKey=secret"
@@ -62,7 +62,7 @@ In this project, we are going to use [`LocalStack`](https://localstack.cloud/) t
 
 - ### Build Docker images
 
-  In a terminal and, inside `springboot-aws-localstack-sns-sqsr` root folder, run the following script
+  In a terminal and, inside `springboot-aws-localstack-dynamodb-sns-sqs` root folder, run the following script
   ```
   ./docker-build.sh
   ```
@@ -75,7 +75,7 @@ In this project, we are going to use [`LocalStack`](https://localstack.cloud/) t
     ```
     docker run --rm --name producer-service -p 9080:9080 \
       -e AWS_ACCESS_KEY=key -e AWS_SECRET_ACCESS_KEY=secret \
-      --network=springboot-aws-localstack-sns-sqs_default \
+      --network=springboot-aws-localstack-dynamodb-sns-sqs_default \
       ivanfranchin/producer-service:1.0.0
     ```
 
@@ -86,7 +86,7 @@ In this project, we are going to use [`LocalStack`](https://localstack.cloud/) t
     docker run --rm --name consumer-service -p 9081:9081 \
       -e AWS_ACCESS_KEY=key -e AWS_SECRET_ACCESS_KEY=secret \
       -e PRODUCER_SERVICE_URL=http://producer-service:9080 \
-      --network=springboot-aws-localstack-sns-sqs_default \
+      --network=springboot-aws-localstack-dynamodb-sns-sqs_default \
       ivanfranchin/consumer-service:1.0.0
     ```
 
@@ -116,14 +116,14 @@ In this project, we are going to use [`LocalStack`](https://localstack.cloud/) t
 ## Shutdown
 
 - To stop applications, go to the terminal where they are running and press `Ctrl+C`
-- To stop and remove `docker-compose` containers, network and volumes, go to a terminal and, inside `springboot-aws-localstack-sns-sqs` root folder, run the following command
+- To stop and remove `docker-compose` containers, network and volumes, go to a terminal and, inside `springboot-aws-localstack-dynamodb-sns-sqs` root folder, run the following command
   ```
   docker-compose down -v
   ```
 
 ## Cleanup
 
-To remove the Docker images created by this project, go to a terminal and, inside `springboot-aws-localstack-sns-sqs` root folder, run the script below
+To remove the Docker images created by this project, go to a terminal and, inside `springboot-aws-localstack-dynamodb-sns-sqs` root folder, run the script below
 ```
 ./remove-docker-images.sh
 ```
