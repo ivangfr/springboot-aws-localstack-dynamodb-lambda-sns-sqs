@@ -6,19 +6,19 @@ import com.mycompany.producerservice.event.News;
 import com.mycompany.producerservice.property.AwsProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import software.amazon.awssdk.services.sns.SnsAsyncClient;
+import software.amazon.awssdk.services.sns.SnsClient;
 import software.amazon.awssdk.services.sns.model.PublishRequest;
 
 @RequiredArgsConstructor
 @Component
 public class NewsPublisher {
 
-    private final SnsAsyncClient snsAsyncClient;
+    private final SnsClient snsClient;
     private final AwsProperties awsProperties;
     private final ObjectMapper objectMapper;
 
     public void publish(News news) {
-        snsAsyncClient.publish(
+        snsClient.publish(
                 PublishRequest.builder()
                         .topicArn(awsProperties.getSns().getTopicArn())
                         .message(toJson(news))

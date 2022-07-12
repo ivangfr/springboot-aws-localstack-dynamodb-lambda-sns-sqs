@@ -30,11 +30,22 @@ public class AwsProperties {
     @NotNull
     private SNS sns;
 
+    @NotNull
+    private DynamoDB dynamoDB;
+
     @Data
     @Valid
     public static class SNS {
 
         @NotBlank
         private String topicArn;
+    }
+
+    @Data
+    @Valid
+    public static class DynamoDB {
+
+        @NotBlank
+        private String tableName;
     }
 }

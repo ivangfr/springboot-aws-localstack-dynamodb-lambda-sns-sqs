@@ -2,12 +2,12 @@ package com.mycompany.consumerservice.domain;
 
 import lombok.Data;
 
-import java.time.ZonedDateTime;
+import java.util.Date;
 
 @Data
 public class News {
 
     private String id;
     private String title;
-    private ZonedDateTime publishedAt;
+    private Date publishedAt;
 }

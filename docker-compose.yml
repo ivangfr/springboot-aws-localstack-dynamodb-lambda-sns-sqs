@@ -17,7 +17,7 @@ services:
       - AWS_ACCESS_KEY_ID=key
       - AWS_SECRET_ACCESS_KEY=secret
       - AWS_DEFAULT_REGION=eu-west-1
-      - SERVICES=sns,sqs
+      - SERVICES=sns,sqs,dynamodb
       # ---
       - DEBUG=${DEBUG-}
       - DATA_DIR=${DATA_DIR-}

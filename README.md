@@ -85,6 +85,7 @@ In this project, we are going to use [`LocalStack`](https://localstack.cloud/) t
     ```
     docker run --rm --name consumer-service -p 9081:9081 \
       -e AWS_ACCESS_KEY=key -e AWS_SECRET_ACCESS_KEY=secret \
+      -e PRODUCER_SERVICE_URL=http://producer-service:9080 \
       --network=springboot-aws-localstack-sns-sqs_default \
       ivanfranchin/consumer-service:1.0.0
     ```

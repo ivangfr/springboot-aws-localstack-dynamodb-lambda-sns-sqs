@@ -7,7 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import software.amazon.awssdk.services.sqs.SqsAsyncClient;
+import software.amazon.awssdk.services.sqs.SqsClient;
 import software.amazon.awssdk.services.sqs.model.DeleteMessageRequest;
 import software.amazon.awssdk.services.sqs.model.ReceiveMessageRequest;
 
@@ -16,7 +16,7 @@ import software.amazon.awssdk.services.sqs.model.ReceiveMessageRequest;
 @Component
 public class NewsConsumer {
 
-    private final SqsAsyncClient sqsAsyncClient;
+    private final SqsClient sqsClient;
     private final AwsProperties awsProperties;
     private final SimpMessagingTemplate simpMessagingTemplate;
     private final NewsMapper newsMapper;
@@ -28,8 +28,7 @@ public class NewsConsumer {
                 .queueUrl(awsProperties.getSqs().getQueueUrl())
                 .build();
 
-        sqsAsyncClient.receiveMessage(receiveMessageRequest)
-                .join()
+        sqsClient.receiveMessage(receiveMessageRequest)
                 .messages()
                 .forEach(message -> {
                     log.info("Received message: {}", message);
@@ -41,7 +40,7 @@ public class NewsConsumer {
                             .receiptHandle(message.receiptHandle())
                             .build();
 
-                    sqsAsyncClient.deleteMessage(deleteMessageRequest);
+                    sqsClient.deleteMessage(deleteMessageRequest);
                 });
     }
 }

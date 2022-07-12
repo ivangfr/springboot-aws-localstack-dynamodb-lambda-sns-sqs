@@ -23,6 +23,15 @@
     <div class="ui container">
         <div class="ui teal segment" style="margin-top:10px">
             <div id="newsList" class="ui unstackable divided items">
+                <div class="item" th:each="news : ${newsList}">
+                    <div class="content">
+                        <div class="meta">
+                            <span th:text="${#dates.format(news.publishedAt, 'dd-MMM-yyyy HH:mm:ss')}">Datetime</span>
+                        </div>
+                        <div class="ui divider"></div>
+                        <div class="ui big header" th:text="${news.title}">Title</div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
