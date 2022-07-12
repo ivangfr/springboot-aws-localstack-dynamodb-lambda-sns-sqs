@@ -1,6 +1,6 @@
 # springboot-aws-localstack-dynamodb-sns-sqs
 
-In this project, we are going to use [`LocalStack`](https://localstack.cloud/) to simulate locally, some services provided by [`AWS Cloud`](https://aws.amazon.com/) such as [`SNS`](https://aws.amazon.com/sns/) and [`SQS`](https://aws.amazon.com/sqs/).
+In this project, we are going to use [`LocalStack`](https://localstack.cloud/) to simulate locally, some services provided by [`AWS Cloud`](https://aws.amazon.com/) such as [`DynamoDB`](https://aws.amazon.com/dynamodb/), [`SNS`](https://aws.amazon.com/sns/) and [`SQS`](https://aws.amazon.com/sqs/).
 
 ## Project Architecture
 
@@ -10,11 +10,11 @@ In this project, we are going to use [`LocalStack`](https://localstack.cloud/) t
 
 - ### producer-service
 
-  [`Spring Boot`](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/) Java Web application that exposes a REST API to publish news.
+  [`Spring Boot`](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/) Java Web application that exposes a REST API to publish news. All news, before being published to `SNS`, are saved in `DynamoDB`.
 
 - ### consumer-service
 
-  `Spring Boot` Java Web application that consumes the news published by `producer-service`
+  `Spring Boot` Java Web application that consumes the news published by `producer-service`. The news are queued in `SQS`.
 
 ## Prerequisites
 
@@ -95,7 +95,7 @@ In this project, we are going to use [`LocalStack`](https://localstack.cloud/) t
 | Application        | Type    | URL                                         | Screenshot                                              |
 |--------------------|---------|---------------------------------------------|---------------------------------------------------------|
 | `producer-service` | Swagger | http://localhost:9080/swagger-ui/index.html | ![swagger](documentation/producer-service-swagger.jpeg) |
-| `consumer-service` | UI      | http://localhost:9081/                      | ![swagger](documentation/consumer-service-ui.jpeg)      |
+| `consumer-service` | UI      | http://localhost:9081                       | ![swagger](documentation/consumer-service-ui.jpeg)      |
 
 ## Publishing news
 
