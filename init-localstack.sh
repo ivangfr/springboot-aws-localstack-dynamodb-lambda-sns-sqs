@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 
 echo
+echo "Installing jq"
+echo "-------------"
+docker exec -t localstack apt-get -y install jq
+
+echo
 echo "Creating news-topic in SNS"
 echo "--------------------------"
 docker exec -t localstack aws --endpoint-url=http://localhost:4566 sns create-topic --name news-topic
@@ -19,21 +24,36 @@ docker exec -t localstack aws --endpoint-url=http://localhost:4566 sns subscribe
   --notification-endpoint arn:aws:sqs:eu-west-1:000000000000:news-consumer-service-queue
 
 echo
-echo "Verifying SNS subscriptions and SQS queues"
-echo "------------------------------------------"
-docker exec -t localstack aws --endpoint-url=http://localhost:4566 sns list-subscriptions
-docker exec -t localstack aws --endpoint-url=http://localhost:4566 sqs list-queues
-
-echo
-echo "Create News table in DynamoDB"
-echo "-----------------------------"
+echo "Creating News table in DynamoDB"
+echo "-------------------------------"
 docker exec -t localstack aws --endpoint-url=http://localhost:4566 dynamodb create-table \
   --table-name News \
   --attribute-definitions AttributeName=Id,AttributeType=S AttributeName=Title,AttributeType=S \
   --key-schema AttributeName=Id,KeyType=HASH AttributeName=Title,KeyType=RANGE \
-  --provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5
+  --provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5 \
+  --stream-specification StreamEnabled=true,StreamViewType=NEW_AND_OLD_IMAGES
 
 echo
-echo "Verifying tables in DynamoDB"
-echo "----------------------------"
-docker exec -t localstack aws --endpoint-url=http://localhost:4566 dynamodb list-tables
+echo "Getting News table DynamoDB Stream ARN"
+echo "--------------------------------------"
+NEWS_TABLE_DYNAMODB_STREAM_ARN=$(docker exec -t localstack aws --endpoint-url=http://localhost:4566 dynamodb describe-table --table-name News | jq -r '.Table.LatestStreamArn')
+echo "NEWS_TABLE_DYNAMODB_STREAM_ARN=${NEWS_TABLE_DYNAMODB_STREAM_ARN}"
+
+echo
+echo "Creating Lambda Function called ProcessDynamoDBEvent"
+echo "----------------------------------------------------"
+docker exec -t localstack aws --endpoint-url=http://localhost:4566 lambda create-function \
+  --function-name ProcessDynamoDBEvent \
+  --runtime java11 \
+  --handler org.springframework.cloud.function.adapter.aws.FunctionInvoker::handleRequest \
+  --zip-file fileb:///dynamodb-lambda-function/shared/dynamodb-lambda-function-1.0.0-aws.jar \
+  --role arn:aws:iam::000000000000:role/service-role/irrelevant \
+  --timeout 60
+
+echo
+echo "Creating a mapping between News Table DynamoDB event source and ProcessDynamoDBEvent lambda function"
+echo "----------------------------------------------------------------------------------------------------"
+docker exec -t localstack aws lambda --endpoint-url=http://localhost:4566 create-event-source-mapping \
+  --function-name ProcessDynamoDBEvent \
+  --event-source $NEWS_TABLE_DYNAMODB_STREAM_ARN \
+  --starting-position LATEST

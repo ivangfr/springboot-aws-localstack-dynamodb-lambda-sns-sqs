@@ -26,7 +26,7 @@ public class NewsController {
 
     @PostMapping
     public News createNews(@Valid @RequestBody CreateNewsRequest request) {
-        return newsService.saveNews(new News(UUID.randomUUID().toString(), request.getTitle(), ZonedDateTime.now()));
+        return newsService.saveNews(News.of(UUID.randomUUID().toString(), request.getTitle(), ZonedDateTime.now()));
     }
 
     @PostMapping("/randomly")

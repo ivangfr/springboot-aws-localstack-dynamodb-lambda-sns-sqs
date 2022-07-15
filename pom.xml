@@ -10,10 +10,10 @@
     </parent>
 
     <groupId>com.mycompany</groupId>
-    <artifactId>springboot-aws-localstack-dynamodb-sns-sqs</artifactId>
+    <artifactId>springboot-aws-localstack-dynamodb-lambda-sns-sqs</artifactId>
     <version>1.0.0</version>
     <packaging>pom</packaging>
-    <name>springboot-aws-localstack-dynamodb-sns-sqs</name>
+    <name>springboot-aws-localstack-dynamodb-lambda-sns-sqs</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
@@ -26,6 +26,7 @@
     <modules>
         <module>producer-service</module>
         <module>consumer-service</module>
+        <module>dynamodb-lambda-function</module>
     </modules>
 
     <dependencies>

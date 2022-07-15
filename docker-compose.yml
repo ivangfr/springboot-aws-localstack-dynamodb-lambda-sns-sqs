@@ -17,16 +17,19 @@ services:
       - AWS_ACCESS_KEY_ID=key
       - AWS_SECRET_ACCESS_KEY=secret
       - AWS_DEFAULT_REGION=eu-west-1
-      - SERVICES=sns,sqs,dynamodb
+      - SERVICES=sns,sqs,dynamodb,lambda
+      - LAMBDA_DOCKER_NETWORK=springboot-aws-localstack-dynamodb-lambda-sns-sqs_default
       # ---
       - DEBUG=${DEBUG-}
       - DATA_DIR=${DATA_DIR-}
-      - LAMBDA_EXECUTOR=${LAMBDA_EXECUTOR-}
-      - LOCALSTACK_API_KEY=${LOCALSTACK_API_KEY-}  # only required for Pro
+      - LAMBDA_EXECUTOR=${LAMBDA_EXECUTOR-docker-reuse} # import config so that lambda works
+      - LAMBDA_REMOTE_DOCKER=false                      # import config so that lambda works
+      - LOCALSTACK_API_KEY=${LOCALSTACK_API_KEY-}       # only required for Pro
       - HOST_TMP_FOLDER=$PWD/tmp/localstack
       - DOCKER_HOST=unix:///var/run/docker.sock
     volumes:
       - "$PWD/tmp/localstack:/tmp/localstack"
+      - "$PWD/dynamodb-lambda-function/shared:/dynamodb-lambda-function/shared"
       - "/var/run/docker.sock:/var/run/docker.sock"
     networks:
       default:

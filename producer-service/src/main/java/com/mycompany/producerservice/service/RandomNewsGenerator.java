@@ -13,7 +13,7 @@ import java.util.UUID;
 public class RandomNewsGenerator {
 
     public News getRandomly() {
-        return new News(UUID.randomUUID().toString(), TITLES.get(random.nextInt(TITLES.size())), ZonedDateTime.now());
+        return News.of(UUID.randomUUID().toString(), TITLES.get(random.nextInt(TITLES.size())), ZonedDateTime.now());
     }
 
     private final Random random = new SecureRandom();

@@ -1,4 +1,4 @@
-package com.mycompany.producerservice.property;
+package com.mycompany.dynamodblambdafunction.property;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -28,13 +28,13 @@ public class AwsProperties {
     private String endpoint;
 
     @NotNull
-    private DynamoDB dynamoDB;
+    private SNS sns;
 
     @Data
     @Valid
-    public static class DynamoDB {
+    public static class SNS {
 
         @NotBlank
-        private String tableName;
+        private String topicArn;
     }
 }

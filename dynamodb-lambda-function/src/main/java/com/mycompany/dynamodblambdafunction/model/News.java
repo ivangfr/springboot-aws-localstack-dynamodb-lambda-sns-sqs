@@ -1,13 +1,11 @@
-package com.mycompany.producerservice.event;
+package com.mycompany.dynamodblambdafunction.model;
 
 import lombok.Value;
-
-import java.time.ZonedDateTime;
 
 @Value(staticConstructor = "of")
 public class News {
 
     String id;
     String title;
-    ZonedDateTime publishedAt;
+    String publishedAt;
 }

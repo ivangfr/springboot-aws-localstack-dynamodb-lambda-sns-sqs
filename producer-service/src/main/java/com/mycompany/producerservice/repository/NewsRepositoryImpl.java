@@ -82,7 +82,7 @@ public class NewsRepositoryImpl implements NewsRepository {
     }
 
     private News toNews(Map<String, AttributeValue> map) {
-        return new News(map.get("Id").s(), map.get("Title").s(), ZonedDateTime.parse(map.get("PublishedAt").s(), DTF));
+        return News.of(map.get("Id").s(), map.get("Title").s(), ZonedDateTime.parse(map.get("PublishedAt").s(), DTF));
     }
 
     private static final DateTimeFormatter DTF = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
