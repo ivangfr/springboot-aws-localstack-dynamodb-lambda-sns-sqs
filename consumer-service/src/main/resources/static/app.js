@@ -9,19 +9,33 @@ function connectToWebSocket() {
             console.log('Connected: ' + frame)
             $('.connWebSocket').find('i').removeClass('red').addClass('green')
 
-            stompClient.subscribe('/topic/news', function (news) {
-                const newsBody = JSON.parse(news.body)
-                const newsItem = '<div class="item">' +
-                                   '<div class="content">' +
-                                     '<div class="meta">' +
-                                       '<span>'+moment(newsBody.publishedAt).format("DD-MMM-YYYY HH:mm:ss")+'</span>' +
-                                     '</div>' +
-                                     '<div class="ui divider"></div>' +
-                                     '<div class="ui big header">'+newsBody.title+'</div>' +
-                                   '</div>' +
-                                 '</div>'
+            stompClient.subscribe('/topic/news', function (newsEvent) {
+                const newsEventBody = JSON.parse(newsEvent.body)
+                const news = newsEventBody.news
+                const action = newsEventBody.action
 
-                $('#newsList').prepend(newsItem)
+                const $news = $('#' + news.id)
+                if (action === 'REMOVE' && $news.length !== 0) {
+                    $news.transition({
+                        animation: 'flash',
+                        onComplete: function() {
+                          $news.remove()
+                        }
+                      }
+                    )
+                } else if (action === 'INSERT' && $news.length === 0) {
+                    const newsItem = '<div class="item" id="'+news.id+'">' +
+                                       '<div class="content">' +
+                                         '<div class="meta">' +
+                                           '<span>'+moment(news.publishedAt).format("DD-MMM-YYYY HH:mm:ss")+'</span>' +
+                                         '</div>' +
+                                         '<div class="ui divider"></div>' +
+                                         '<div class="ui big header">'+news.title+'</div>' +
+                                       '</div>' +
+                                     '</div>'
+                    $('#newsList').prepend(newsItem)
+                    $('#' + news.id).transition('glow')
+                }
             })
         },
         function() {

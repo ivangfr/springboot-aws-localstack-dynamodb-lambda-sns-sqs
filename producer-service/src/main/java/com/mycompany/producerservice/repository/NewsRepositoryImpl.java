@@ -7,18 +7,20 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
+import software.amazon.awssdk.services.dynamodb.model.DeleteItemRequest;
+import software.amazon.awssdk.services.dynamodb.model.DeleteItemResponse;
 import software.amazon.awssdk.services.dynamodb.model.DynamoDbException;
+import software.amazon.awssdk.services.dynamodb.model.GetItemRequest;
 import software.amazon.awssdk.services.dynamodb.model.PutItemRequest;
 import software.amazon.awssdk.services.dynamodb.model.PutItemResponse;
-import software.amazon.awssdk.services.dynamodb.model.ResourceNotFoundException;
 import software.amazon.awssdk.services.dynamodb.model.ScanRequest;
 import software.amazon.awssdk.services.dynamodb.model.ScanResponse;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -31,20 +33,16 @@ public class NewsRepositoryImpl implements NewsRepository {
 
     @Override
     public News save(News news) {
-        String tableName = awsProperties.getDynamoDB().getTableName();
-        PutItemRequest request = PutItemRequest.builder()
-                .tableName(tableName)
+        PutItemRequest putItemRequest = PutItemRequest.builder()
+                .tableName(awsProperties.getDynamoDB().getTableName())
                 .item(toMap(news))
                 .build();
 
         try {
-            PutItemResponse putItemResponse = dynamoDbClient.putItem(request);
+            PutItemResponse putItemResponse = dynamoDbClient.putItem(putItemRequest);
             log.info("Record inserted successfully! The response from DynamoDB is: {}", putItemResponse);
             return news;
-        } catch (ResourceNotFoundException e) {
-            log.error("The Amazon DynamoDB table \"{}\" can't be found.", tableName);
-            throw e;
-        } catch (DynamoDbException e) {
+        } catch (Exception e) {
             log.error("An error occurred! Error message: {}", e.getMessage());
             throw e;
         }
@@ -52,9 +50,8 @@ public class NewsRepositoryImpl implements NewsRepository {
 
     @Override
     public List<News> findAll() {
-        String tableName = awsProperties.getDynamoDB().getTableName();
         ScanRequest scanRequest = ScanRequest.builder()
-                .tableName(tableName)
+                .tableName(awsProperties.getDynamoDB().getTableName())
                 .build();
 
         try {
@@ -64,9 +61,39 @@ public class NewsRepositoryImpl implements NewsRepository {
                     .map(this::toNews)
                     .sorted((n1, n2) -> n2.getPublishedAt().compareTo(n1.getPublishedAt()))
                     .collect(Collectors.toList());
-        } catch (ResourceNotFoundException e) {
-            log.error("The Amazon DynamoDB table \"{}\" can't be found.", tableName);
+        } catch (Exception e) {
+            log.error("An error occurred! Error message: {}", e.getMessage());
             throw e;
+        }
+    }
+
+    @Override
+    public Optional<News> findById(String id) {
+        GetItemRequest getItemRequest = GetItemRequest.builder()
+                .tableName(awsProperties.getDynamoDB().getTableName())
+                .key(Map.of("Id", AttributeValue.builder().s(id).build()))
+                .build();
+
+        try {
+            Map<String, AttributeValue> item = dynamoDbClient.getItem(getItemRequest).item();
+            log.info("item = {}", item);
+            return item == null || item.isEmpty() ? Optional.empty() : Optional.of(toNews(item));
+        } catch (Exception e) {
+            log.error("An error occurred! Error message: {}", e.getMessage());
+            throw e;
+        }
+    }
+
+    @Override
+    public void delete(String id) {
+        DeleteItemRequest deleteItemRequest = DeleteItemRequest.builder()
+                .tableName(awsProperties.getDynamoDB().getTableName())
+                .key(Map.of("Id", AttributeValue.builder().s(id).build()))
+                .build();
+
+        try {
+            DeleteItemResponse deleteItemResponse = dynamoDbClient.deleteItem(deleteItemRequest);
+            log.info("Record deleted successfully! The response from DynamoDB is: {}", deleteItemResponse);
         } catch (DynamoDbException e) {
             log.error("An error occurred! Error message: {}", e.getMessage());
             throw e;
@@ -74,11 +101,10 @@ public class NewsRepositoryImpl implements NewsRepository {
     }
 
     private Map<String, AttributeValue> toMap(News news) {
-        Map<String, AttributeValue> map = new HashMap<>();
-        map.put("Id", AttributeValue.builder().s(news.getId()).build());
-        map.put("Title", AttributeValue.builder().s(news.getTitle()).build());
-        map.put("PublishedAt", AttributeValue.builder().s(news.getPublishedAt().format(DTF)).build());
-        return map;
+        return Map.of(
+                "Id", AttributeValue.builder().s(news.getId()).build(),
+                "Title", AttributeValue.builder().s(news.getTitle()).build(),
+                "PublishedAt", AttributeValue.builder().s(news.getPublishedAt().format(DTF)).build());
     }
 
     private News toNews(Map<String, AttributeValue> map) {

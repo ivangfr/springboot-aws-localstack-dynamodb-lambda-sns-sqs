@@ -12,6 +12,14 @@ In this project, we are going to use [`LocalStack`](https://localstack.cloud/) t
 
   [`Spring Boot`](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/) Java Web application that exposes a REST API to manage news.
 
+  It has the following endpoints:
+  ```
+     GET /api/news
+     GET /api/news/{id}
+    POST /api/news {"title": "..."}
+  DELETE /api/news/{id}
+  ```
+
 - ### dynamodb-lambda-function
 
   [`Spring Cloud Function`](https://docs.spring.io/spring-cloud-function/docs/current/reference/html/spring-cloud-function.html) application that uses [`AWS Adapter`](https://docs.spring.io/spring-cloud-function/docs/current/reference/html/aws.html) to convert it to a form that can run in `AWS Lambda`.
@@ -30,13 +38,13 @@ In this project, we are going to use [`LocalStack`](https://localstack.cloud/) t
 
 ## Package dynamodb-lambda-function jar
 
-- In a terminal, make sure you inside `springboot-aws-localstack-dynamodb-lambda-sns-sqs` root folder.
+- In a terminal, make sure you inside `springboot-aws-localstack-dynamodb-lambda-sns-sqs` root folder
 
 - Run the following script
   ```
   ./package-dynamodb-lambda-function-jar.sh
   ```
-  When the `Maven` packaging finishes, the jar file generated in `dynamodb-lambda-function/target` folder is copied to `dynamodb-lambda-function/shared` folder
+  When `Maven` packaging finishes, the jar file generated in `dynamodb-lambda-function/target` folder is copied to `dynamodb-lambda-function/shared` folder
 
 ## Start and Initialize LocalStack
 
@@ -112,28 +120,45 @@ In this project, we are going to use [`LocalStack`](https://localstack.cloud/) t
 
 ## Application URL
 
-| Application        | Type    | URL                                         | Screenshot                                                               |
-|--------------------|---------|---------------------------------------------|--------------------------------------------------------------------------|
-| `producer-service` | Swagger | http://localhost:9080/swagger-ui/index.html | ![producer-service-swagger](documentation/producer-service-swagger.jpeg) |
-| `consumer-service` | UI      | http://localhost:9081                       | ![consumer-service-ui](documentation/consumer-service-ui.jpeg)           |
+| Application        | Type    | URL                                         |
+|--------------------|---------|---------------------------------------------|
+| `producer-service` | Swagger | http://localhost:9080/swagger-ui/index.html |
+| `consumer-service` | UI      | http://localhost:9081                       |
 
-## Publishing news
+## Playing around
 
-- In a terminal, run the following command to create a news
-  ```
-  curl -i -X POST http://localhost:9080/api/news \
-    -H 'Content-Type: application/json' \
-    -d '{"title": "Palmeiras is three-time champion of the Copa Libertadores da América"}'
-  ```
+- **Creating news**
+ 
+  - In a terminal, run the following command
+    ```
+    curl -i -X POST http://localhost:9080/api/news \
+      -H 'Content-Type: application/json' \
+      -d '{"title": "Palmeiras is three-time champion of the Copa Libertadores da América"}'
+    ```
   
-  or to create a news randomly
-  ```
-  curl -i -X POST http://localhost:9080/api/news/randomly
-  ```
+    or to create news randomly
+    ```
+    curl -i -X POST http://localhost:9080/api/news/randomly
+    ```
   
-  > **Important:** for the first call, it takes some minutes for `dynamodb-lambda-function` to start.
+    > **Important:** for the first call, it takes some minutes for `dynamodb-lambda-function` to start.
 
-- Check `docker-compose` and `consumer-service` UI or logs
+  - In `consumer-service` UI, the news should be displayed
+
+- **Deleting news**
+
+  - In a terminal, run the following command
+    ```
+    curl -i -X DELETE http://localhost:9080/api/news/<NEWS-ID>
+    ```
+
+  - In `consumer-service` UI, the news should be removed
+
+## Demo
+
+In the `GIF` below, I use `producer-service` Swagger UI to create one random news. Then, I delete the news created previously. Finally, I create more two news randomly.
+
+![demo](documentation/demo.gif)
 
 ## Shutdown
 

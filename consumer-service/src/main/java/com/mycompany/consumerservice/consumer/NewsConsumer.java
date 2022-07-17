@@ -33,7 +33,7 @@ public class NewsConsumer {
                 .forEach(message -> {
                     log.info("Received message: {}", message);
 
-                    simpMessagingTemplate.convertAndSend("/topic/news", newsMapper.toNews(message));
+                    simpMessagingTemplate.convertAndSend("/topic/news", newsMapper.toNewsEvent(message));
 
                     DeleteMessageRequest deleteMessageRequest = DeleteMessageRequest.builder()
                             .queueUrl(awsProperties.getSqs().getQueueUrl())

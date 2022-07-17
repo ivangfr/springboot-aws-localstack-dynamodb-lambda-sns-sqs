@@ -1,15 +1,17 @@
 package com.mycompany.dynamodblambdafunction.handler;
 
 import com.amazonaws.services.lambda.runtime.events.DynamodbEvent;
+import com.amazonaws.services.lambda.runtime.events.models.dynamodb.AttributeValue;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mycompany.dynamodblambdafunction.model.News;
+import com.mycompany.dynamodblambdafunction.event.NewsEvent;
 import com.mycompany.dynamodblambdafunction.property.AwsProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import software.amazon.awssdk.services.sns.SnsClient;
 import software.amazon.awssdk.services.sns.model.PublishRequest;
 
+import java.util.Map;
 import java.util.function.Consumer;
 
 @RequiredArgsConstructor
@@ -24,23 +26,33 @@ public class DynamodbEventHandler implements Consumer<DynamodbEvent> {
     public void accept(DynamodbEvent dynamodbEvent) {
         dynamodbEvent.getRecords()
                 .stream()
-                .filter(record -> "INSERT".equals(record.getEventName()))
-                .map(record ->
-                        News.of(
-                                record.getDynamodb().getNewImage().get("Id").getS(),
-                                record.getDynamodb().getNewImage().get("Title").getS(),
-                                record.getDynamodb().getNewImage().get("PublishedAt").getS()))
-                .forEach(news ->
+                .map(record -> {
+                    Map<String, AttributeValue> image = record.getDynamodb().getNewImage();
+                    if (image == null) {
+                        image = record.getDynamodb().getOldImage();
+                    }
+                    return NewsEvent.of(
+                            record.getEventName(),
+                            NewsEvent.News.of(
+                                    image.get("Id").getS(),
+                                    image.get("Title").getS(),
+                                    image.get("PublishedAt").getS()
+                            )
+                    );
+                })
+                .forEach(newsEvent ->
                         snsClient.publish(
                                 PublishRequest.builder()
                                         .topicArn(awsProperties.getSns().getTopicArn())
-                                        .message(toJson(news))
-                                        .build()));
+                                        .message(toJson(newsEvent))
+                                        .build()
+                        )
+                );
     }
 
-    private String toJson(News news) {
+    private String toJson(NewsEvent newsEvent) {
         try {
-            return objectMapper.writeValueAsString(news);
+            return objectMapper.writeValueAsString(newsEvent);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }

@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>News-Client</title>
+    <title>Consumer-Service</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
 </head>
 
@@ -23,7 +23,7 @@
     <div class="ui container">
         <div class="ui teal segment" style="margin-top:10px">
             <div id="newsList" class="ui unstackable divided items">
-                <div class="item" th:each="news : ${newsList}">
+                <div class="item" th:id="${news.id}" th:each="news : ${newsList}">
                     <div class="content">
                         <div class="meta">
                             <span th:text="${#dates.format(news.publishedAt, 'dd-MMM-yyyy HH:mm:ss')}">Datetime</span>

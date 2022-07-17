@@ -28,8 +28,8 @@ echo "Creating News table in DynamoDB"
 echo "-------------------------------"
 docker exec -t localstack aws --endpoint-url=http://localhost:4566 dynamodb create-table \
   --table-name News \
-  --attribute-definitions AttributeName=Id,AttributeType=S AttributeName=Title,AttributeType=S \
-  --key-schema AttributeName=Id,KeyType=HASH AttributeName=Title,KeyType=RANGE \
+  --attribute-definitions AttributeName=Id,AttributeType=S \
+  --key-schema AttributeName=Id,KeyType=HASH \
   --provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5 \
   --stream-specification StreamEnabled=true,StreamViewType=NEW_AND_OLD_IMAGES
 

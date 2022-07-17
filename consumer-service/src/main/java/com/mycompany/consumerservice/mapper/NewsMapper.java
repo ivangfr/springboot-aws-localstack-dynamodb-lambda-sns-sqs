@@ -3,7 +3,7 @@ package com.mycompany.consumerservice.mapper;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mycompany.consumerservice.domain.News;
+import com.mycompany.consumerservice.domain.NewsEvent;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -15,10 +15,10 @@ public class NewsMapper {
 
     private final ObjectMapper objectMapper;
 
-    public News toNews(Message message) {
+    public NewsEvent toNewsEvent(Message message) {
         try {
             MessageBody messageBody = objectMapper.readValue(message.body(), MessageBody.class);
-            return objectMapper.readValue(messageBody.getMessage(), News.class);
+            return objectMapper.readValue(messageBody.getMessage(), NewsEvent.class);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
