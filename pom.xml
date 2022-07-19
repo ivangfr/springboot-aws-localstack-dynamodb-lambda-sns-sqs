@@ -24,8 +24,8 @@
     </properties>
 
     <modules>
-        <module>producer-service</module>
-        <module>consumer-service</module>
+        <module>news-producer</module>
+        <module>news-consumer</module>
         <module>dynamodb-lambda-function</module>
     </modules>
 

@@ -8,7 +8,7 @@ In this project, we are going to use [`LocalStack`](https://localstack.cloud/) t
 
 ## Applications
 
-- ### producer-service
+- ### news-producer
 
   [`Spring Boot`](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/) Java Web application that exposes a REST API to manage news.
 
@@ -26,7 +26,7 @@ In this project, we are going to use [`LocalStack`](https://localstack.cloud/) t
 
   `dynamodb-lambda-function` listens to events emitted by an event-source created to monitor changes in `DynamoDB`. Once it receives an event, it processes it and publishes a new event to `SNS`.
 
-- ### consumer-service
+- ### news-consumer
 
   `Spring Boot` Java Web application that consumes the events that `dynamodb-lambda-function` publishes to `SNS`. These events are queued in a `SQS`.
 
@@ -62,28 +62,28 @@ In this project, we are going to use [`LocalStack`](https://localstack.cloud/) t
   ```
   The script will create:
     - create `news-topic` in `SNS`;
-    - create `news-consumer-service-queue` in `SQS`;
-    - subscribe `news-consumer-service-queue` to `news-topic`; 
+    - create `news-consumer-queue` in `SQS`;
+    - subscribe `news-consumer-queue` to `news-topic`; 
     - create `News` table in `DynamoDB`;
     - create `ProcessDynamoDBEvent` Lambda function;
     - create an `event-source-mapping` to connect `DynamoDB` to `ProcessDynamoDBEvent` Lambda function.
 
 ## Running applications with Maven
 
-- **producer-service**
+- **news-producer**
 
   - In a terminal, make sure you are inside `springboot-aws-localstack-dynamodb-lambda-sns-sqs` root folder
   - Run the following command to start the application
     ```
-    ./mvnw clean spring-boot:run --projects producer-service -Dspring-boot.run.jvmArguments="-Daws.accessKey=key -Daws.secretAccessKey=secret"
+    ./mvnw clean spring-boot:run --projects news-producer -Dspring-boot.run.jvmArguments="-Daws.accessKey=key -Daws.secretAccessKey=secret"
     ```
 
-- **consumer-service**
+- **news-consumer**
 
   - In a new terminal, navigate to `springboot-aws-localstack-dynamodb-lambda-sns-sqs` root folder
   - Run the command below to start the application
     ```
-    ./mvnw clean spring-boot:run --projects consumer-service -Dspring-boot.run.jvmArguments="-Daws.accessKey=key -Daws.secretAccessKey=secret"
+    ./mvnw clean spring-boot:run --projects news-consumer -Dspring-boot.run.jvmArguments="-Daws.accessKey=key -Daws.secretAccessKey=secret"
     ```
 
 ## Running applications as Docker container
@@ -97,33 +97,33 @@ In this project, we are going to use [`LocalStack`](https://localstack.cloud/) t
 
 - ### Run Docker containers
 
-  - **producer-service**
+  - **news-producer**
     
     In a terminal, run the following command
     ```
-    docker run --rm --name producer-service -p 9080:9080 \
+    docker run --rm --name news-producer -p 9080:9080 \
       -e AWS_ACCESS_KEY=key -e AWS_SECRET_ACCESS_KEY=secret \
       --network=springboot-aws-localstack-dynamodb-lambda-sns-sqs_default \
-      ivanfranchin/producer-service:1.0.0
+      ivanfranchin/news-producer:1.0.0
     ```
 
-  - **consumer-service**
+  - **news-consumer**
 
     In a new terminal, run the command below
     ```
-    docker run --rm --name consumer-service -p 9081:9081 \
+    docker run --rm --name news-consumer -p 9081:9081 \
       -e AWS_ACCESS_KEY=key -e AWS_SECRET_ACCESS_KEY=secret \
-      -e PRODUCER_SERVICE_URL=http://producer-service:9080 \
+      -e NEWS_PRODUCER_URL=http://news-producer:9080 \
       --network=springboot-aws-localstack-dynamodb-lambda-sns-sqs_default \
-      ivanfranchin/consumer-service:1.0.0
+      ivanfranchin/news-consumer:1.0.0
     ```
 
 ## Application URL
 
-| Application        | Type    | URL                                         |
-|--------------------|---------|---------------------------------------------|
-| `producer-service` | Swagger | http://localhost:9080/swagger-ui/index.html |
-| `consumer-service` | UI      | http://localhost:9081                       |
+| Application     | Type    | URL                                         |
+|-----------------|---------|---------------------------------------------|
+| `news-producer` | Swagger | http://localhost:9080/swagger-ui/index.html |
+| `news-consumer` | UI      | http://localhost:9081                       |
 
 ## Playing around
 
@@ -143,7 +143,7 @@ In this project, we are going to use [`LocalStack`](https://localstack.cloud/) t
   
     > **Warning**: for the first call, it takes some minutes for `dynamodb-lambda-function` to start.
 
-  - In `consumer-service` UI, the news should be displayed
+  - In `news-consumer` UI, the news should be displayed
 
 - **Deleting news**
 
@@ -152,11 +152,11 @@ In this project, we are going to use [`LocalStack`](https://localstack.cloud/) t
     curl -i -X DELETE http://localhost:9080/api/news/<NEWS-ID>
     ```
 
-  - In `consumer-service` UI, the news should be removed
+  - In `news-consumer` UI, the news should be removed
 
 ## Demo
 
-In the `GIF` below, I use `producer-service` Swagger UI to create one random news. Then, I delete the news created previously. Finally, I create more two news randomly.
+In the `GIF` below, we use `news-producer` Swagger UI to create one random news. Then, we delete the news created previously. Finally, we create more two news randomly.
 
 ![demo](documentation/demo.gif)
 
