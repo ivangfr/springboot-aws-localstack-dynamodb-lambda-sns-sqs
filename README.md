@@ -54,7 +54,7 @@ In this project, we are going to use [`LocalStack`](https://localstack.cloud/) t
   ```
   DEBUG=1 docker-compose up
   ```
-  > **Note:** Debug logs are enabled so that we have more insights about what is happening
+  > **Note**: Debug logs are enabled so that we have more insights about what is happening
 
 - In a new terminal, initialize `LocalStack` by running the following script
   ```
@@ -141,7 +141,7 @@ In this project, we are going to use [`LocalStack`](https://localstack.cloud/) t
     curl -i -X POST http://localhost:9080/api/news/randomly
     ```
   
-    > **Important:** for the first call, it takes some minutes for `dynamodb-lambda-function` to start.
+    > **Warning**: for the first call, it takes some minutes for `dynamodb-lambda-function` to start.
 
   - In `consumer-service` UI, the news should be displayed
 
