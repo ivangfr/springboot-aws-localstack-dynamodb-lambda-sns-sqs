@@ -52,39 +52,42 @@ In this project, we are going to use [`LocalStack`](https://localstack.cloud/) t
 
 - Start `LocalStack` Docker container
   ```
-  DEBUG=1 docker-compose up
+  DEBUG=1 docker-compose up -d
   ```
   > **Note**: Debug logs are enabled so that we have more insights about what is happening
 
-- In a new terminal, initialize `LocalStack` by running the following script
+- Initialize `LocalStack` by running the following script
   ```
   ./init-localstack.sh
   ```
   The script will create:
-    - create `news-topic` in `SNS`;
-    - create `news-consumer-queue` in `SQS`;
-    - subscribe `news-consumer-queue` to `news-topic`; 
-    - create `News` table in `DynamoDB`;
-    - create `ProcessDynamoDBEvent` Lambda function;
-    - create an `event-source-mapping` to connect `DynamoDB` to `ProcessDynamoDBEvent` Lambda function.
+  - create `news-topic` in `SNS`;
+  - create `news-consumer-queue` in `SQS`;
+  - subscribe `news-consumer-queue` to `news-topic`;
+  - create `News` table in `DynamoDB`;
+  - create `ProcessDynamoDBEvent` Lambda function;
+  - create an `event-source-mapping` to connect `DynamoDB` to `ProcessDynamoDBEvent` Lambda function.
+
+- \[Optional\] Monitor `localstack` Docker container logs
+  ```
+  docker logs localstack -f
+  ```
 
 ## Running applications with Maven
 
 - **news-producer**
 
-  - In a terminal, make sure you are inside `springboot-aws-localstack-dynamodb-lambda-sns-sqs` root folder
-  - Run the following command to start the application
-    ```
-    ./mvnw clean spring-boot:run --projects news-producer -Dspring-boot.run.jvmArguments="-Daws.accessKey=key -Daws.secretAccessKey=secret"
-    ```
+  In a terminal and, inside `springboot-aws-localstack-dynamodb-lambda-sns-sqs` root folder, run the following command
+  ```
+  ./mvnw clean spring-boot:run --projects news-producer -Dspring-boot.run.jvmArguments="-Daws.accessKey=key -Daws.secretAccessKey=secret"
+  ```
 
 - **news-consumer**
 
-  - In a new terminal, navigate to `springboot-aws-localstack-dynamodb-lambda-sns-sqs` root folder
-  - Run the command below to start the application
-    ```
-    ./mvnw clean spring-boot:run --projects news-consumer -Dspring-boot.run.jvmArguments="-Daws.accessKey=key -Daws.secretAccessKey=secret"
-    ```
+  In another terminal and, inside `springboot-aws-localstack-dynamodb-lambda-sns-sqs` root folder, run the command below
+  ```
+  ./mvnw clean spring-boot:run --projects news-consumer -Dspring-boot.run.jvmArguments="-Daws.accessKey=key -Daws.secretAccessKey=secret"
+  ```
 
 ## Running applications as Docker container
 
@@ -98,7 +101,7 @@ In this project, we are going to use [`LocalStack`](https://localstack.cloud/) t
 - ### Run Docker containers
 
   - **news-producer**
-    
+
     In a terminal, run the following command
     ```
     docker run --rm --name news-producer -p 9080:9080 \
@@ -128,19 +131,19 @@ In this project, we are going to use [`LocalStack`](https://localstack.cloud/) t
 ## Playing around
 
 - **Creating news**
- 
+
   - In a terminal, run the following command
     ```
     curl -i -X POST http://localhost:9080/api/news \
       -H 'Content-Type: application/json' \
       -d '{"title": "Palmeiras is three-time champion of the Copa Libertadores da América"}'
     ```
-  
+
     or to create news randomly
     ```
     curl -i -X POST http://localhost:9080/api/news/randomly
     ```
-  
+
     > **Warning**: for the first call, it takes some minutes for `dynamodb-lambda-function` to start.
 
   - In `news-consumer` UI, the news should be displayed
