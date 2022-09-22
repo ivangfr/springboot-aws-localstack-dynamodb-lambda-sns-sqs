@@ -4,7 +4,7 @@ services:
 
   localstack:
     container_name: localstack
-    image: localstack/localstack:1.0.1
+    image: localstack/localstack:1.0.3 # NOTE: I've tried version above this one, but it didn't work.
     # network_mode: bridge               # using default docker-compose network_mode to expose localstack to other containers
     ports:
       - "127.0.0.1:53:53"                # only required for Pro (DNS)

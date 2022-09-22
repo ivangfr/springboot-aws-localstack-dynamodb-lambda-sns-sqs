@@ -49,6 +49,7 @@ docker exec -t localstack aws --endpoint-url=http://localhost:4566 lambda create
   --zip-file fileb:///dynamodb-lambda-function/shared/dynamodb-lambda-function-1.0.0-aws.jar \
   --role arn:aws:iam::000000000000:role/service-role/irrelevant \
   --timeout 60
+# NOTE: I've tried java17 for runtime, but it didn't work.
 
 echo
 echo "Creating a mapping between News Table DynamoDB event source and ProcessDynamoDBEvent lambda function"

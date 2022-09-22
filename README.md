@@ -32,7 +32,7 @@ In this project, we are going to use [`LocalStack`](https://localstack.cloud/) t
 
 ## Prerequisites
 
-- [`Java 11+`](https://www.oracle.com/java/technologies/downloads/#java11)
+- [`Java 17+`](https://www.oracle.com/java/technologies/downloads/#java17)
 - [`Docker`](https://www.docker.com/)
 - [`Docker-Compose`](https://docs.docker.com/compose/install/)
 
@@ -123,10 +123,10 @@ In this project, we are going to use [`LocalStack`](https://localstack.cloud/) t
 
 ## Application URL
 
-| Application     | Type    | URL                                         |
-|-----------------|---------|---------------------------------------------|
-| `news-producer` | Swagger | http://localhost:9080/swagger-ui/index.html |
-| `news-consumer` | UI      | http://localhost:9081                       |
+| Application     | Type    | URL                                   |
+|-----------------|---------|---------------------------------------|
+| `news-producer` | Swagger | http://localhost:9080/swagger-ui.html |
+| `news-consumer` | UI      | http://localhost:9081                 |
 
 ## Playing around
 

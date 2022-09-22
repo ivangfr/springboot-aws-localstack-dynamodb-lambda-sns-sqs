@@ -32,7 +32,7 @@ public class NewsController {
     @PostMapping
     public News createNews(@Valid @RequestBody CreateNewsRequest request) {
         return newsService.saveNews(
-                News.of(UUID.randomUUID().toString(), request.getTitle(), ZonedDateTime.now()));
+                new News(UUID.randomUUID().toString(), request.getTitle(), ZonedDateTime.now()));
     }
 
     @ResponseStatus(HttpStatus.CREATED)

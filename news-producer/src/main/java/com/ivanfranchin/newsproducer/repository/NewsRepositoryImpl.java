@@ -59,7 +59,7 @@ public class NewsRepositoryImpl implements NewsRepository {
             return scanResponse.items()
                     .stream()
                     .map(this::toNews)
-                    .sorted((n1, n2) -> n2.getPublishedAt().compareTo(n1.getPublishedAt()))
+                    .sorted((n1, n2) -> n2.publishedAt().compareTo(n1.publishedAt()))
                     .collect(Collectors.toList());
         } catch (Exception e) {
             log.error("An error occurred! Error message: {}", e.getMessage());
@@ -102,13 +102,13 @@ public class NewsRepositoryImpl implements NewsRepository {
 
     private Map<String, AttributeValue> toMap(News news) {
         return Map.of(
-                "Id", AttributeValue.builder().s(news.getId()).build(),
-                "Title", AttributeValue.builder().s(news.getTitle()).build(),
-                "PublishedAt", AttributeValue.builder().s(news.getPublishedAt().format(DTF)).build());
+                "Id", AttributeValue.builder().s(news.id()).build(),
+                "Title", AttributeValue.builder().s(news.title()).build(),
+                "PublishedAt", AttributeValue.builder().s(news.publishedAt().format(DTF)).build());
     }
 
     private News toNews(Map<String, AttributeValue> map) {
-        return News.of(map.get("Id").s(), map.get("Title").s(), ZonedDateTime.parse(map.get("PublishedAt").s(), DTF));
+        return new News(map.get("Id").s(), map.get("Title").s(), ZonedDateTime.parse(map.get("PublishedAt").s(), DTF));
     }
 
     private static final DateTimeFormatter DTF = DateTimeFormatter.ISO_OFFSET_DATE_TIME;

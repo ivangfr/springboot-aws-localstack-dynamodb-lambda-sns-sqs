@@ -14,7 +14,8 @@
     <description>Demo project for Spring Boot</description>
 
     <properties>
-        <spring-cloud.version>2021.0.3</spring-cloud.version>
+        <java.version>11</java.version> <!-- NOTE: I've tried Java version 17, but it didn't work. -->
+        <spring-cloud.version>2021.0.4</spring-cloud.version>
         <aws-lambda-java-core.version>1.2.1</aws-lambda-java-core.version>
         <aws-lambda-java-events.version>3.11.0</aws-lambda-java-events.version>
         <spring-boot-thin-layout.version>1.0.28.RELEASE</spring-boot-thin-layout.version>
