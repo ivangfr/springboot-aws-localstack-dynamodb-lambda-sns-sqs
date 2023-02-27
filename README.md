@@ -2,7 +2,7 @@
 
 In this project, we are going to use [`LocalStack`](https://localstack.cloud/) to simulate locally, some services provided by [`AWS Cloud`](https://aws.amazon.com/) such as: [`DynamoDB`](https://aws.amazon.com/dynamodb/), [`Lambda`](https://aws.amazon.com/lambda/), [`SNS`](https://aws.amazon.com/sns/) and [`SQS`](https://aws.amazon.com/sqs/).
 
-## Project Architecture
+## Project Diagram
 
 ![project-diagram](documentation/project-diagram.png)
 
@@ -54,7 +54,11 @@ In this project, we are going to use [`LocalStack`](https://localstack.cloud/) t
   ```
   DEBUG=1 docker-compose up -d
   ```
-  > **Note**: Debug logs are enabled so that we have more insights about what is happening
+
+- \[Optional\] Debug logs are enabled so that we have more insights about what is happening. To monitor `localstack` Docker container logs, run the command below
+  ```
+  docker logs localstack -f
+  ```
 
 - Initialize `LocalStack` by running the following script
   ```
@@ -67,11 +71,6 @@ In this project, we are going to use [`LocalStack`](https://localstack.cloud/) t
   - create `News` table in `DynamoDB`;
   - create `ProcessDynamoDBEvent` Lambda function;
   - create an `event-source-mapping` to connect `DynamoDB` to `ProcessDynamoDBEvent` Lambda function.
-
-- \[Optional\] Monitor `localstack` Docker container logs
-  ```
-  docker logs localstack -f
-  ```
 
 ## Running applications with Maven
 
@@ -144,7 +143,7 @@ In this project, we are going to use [`LocalStack`](https://localstack.cloud/) t
     curl -i -X POST http://localhost:9080/api/news/randomly
     ```
 
-    > **Warning**: for the first call, it takes some minutes for `dynamodb-lambda-function` to start.
+    > **Warning**: As soon as the first request is submitted, it will take some minutes for `dynamodb-lambda-function` to start. In my machine, it's taking around 3 - 4 minutes. So, be patient :)
 
   - In `news-consumer` UI, the news should be displayed
 

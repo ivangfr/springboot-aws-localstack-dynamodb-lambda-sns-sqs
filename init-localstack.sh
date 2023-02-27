@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 
 echo
+echo "Initializing LocalStack"
+echo "======================="
+
+echo
 echo "Installing jq"
 echo "-------------"
 docker exec -t localstack apt-get -y install jq
@@ -58,3 +62,8 @@ docker exec -t localstack aws lambda --endpoint-url=http://localhost:4566 create
   --function-name ProcessDynamoDBEvent \
   --event-source $NEWS_TABLE_DYNAMODB_STREAM_ARN \
   --starting-position LATEST
+
+echo
+echo "LocalStack initialized successfully"
+echo "==================================="
+echo
