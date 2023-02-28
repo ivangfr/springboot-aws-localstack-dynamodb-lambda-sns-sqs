@@ -5,11 +5,7 @@ services:
   localstack:
     container_name: localstack
     image: localstack/localstack:1.0.3 # NOTE: I've tried version above this one, but it didn't work.
-    # network_mode: bridge               # using default docker-compose network_mode to expose localstack to other containers
     ports:
-      - "127.0.0.1:53:53"                # only required for Pro (DNS)
-      - "127.0.0.1:53:53/udp"            # only required for Pro (DNS)
-      - "127.0.0.1:443:443"              # only required for Pro (LocalStack HTTPS Edge Proxy)
       - "127.0.0.1:4510-4559:4510-4559"  # external service port range
       - "127.0.0.1:4566:4566"            # LocalStack Edge Proxy
     environment:
@@ -21,14 +17,13 @@ services:
       - LAMBDA_DOCKER_NETWORK=springboot-aws-localstack-dynamodb-lambda-sns-sqs_default
       # ---
       - DEBUG=${DEBUG-}
-      - DATA_DIR=${DATA_DIR-}
-      - LAMBDA_EXECUTOR=${LAMBDA_EXECUTOR-docker-reuse} # import config so that lambda works
-      - LAMBDA_REMOTE_DOCKER=false                      # import config so that lambda works
+      - LAMBDA_EXECUTOR=${LAMBDA_EXECUTOR-docker-reuse} # important config so that lambda works
+      - LAMBDA_REMOTE_DOCKER=false                      # important config so that lambda works
       - LOCALSTACK_API_KEY=${LOCALSTACK_API_KEY-}       # only required for Pro
-      - HOST_TMP_FOLDER=$PWD/tmp/localstack
+      - HOST_TMP_FOLDER=$PWD/tmp/folder
       - DOCKER_HOST=unix:///var/run/docker.sock
     volumes:
-      - "$PWD/tmp/localstack:/tmp/localstack"
+      - "$PWD/tmp/localstack:/var/lib/localstack"
       - "$PWD/dynamodb-lambda-function/shared:/dynamodb-lambda-function/shared"
       - "/var/run/docker.sock:/var/run/docker.sock"
     networks:

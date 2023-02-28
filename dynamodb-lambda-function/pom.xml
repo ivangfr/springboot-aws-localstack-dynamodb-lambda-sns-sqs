@@ -3,10 +3,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.ivanfranchin</groupId>
-        <artifactId>springboot-aws-localstack-dynamodb-lambda-sns-sqs</artifactId>
-        <version>1.0.0</version>
-        <relativePath>../pom.xml</relativePath> <!-- lookup parent from repository -->
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.7.9</version>
+        <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
     <artifactId>dynamodb-lambda-function</artifactId>
@@ -16,9 +16,10 @@
     <properties>
         <java.version>11</java.version> <!-- NOTE: I've tried Java version 17, but it didn't work. -->
         <spring-cloud.version>2021.0.4</spring-cloud.version>
-        <aws-lambda-java-core.version>1.2.1</aws-lambda-java-core.version>
+        <amazon-awssdk.version>2.20.12</amazon-awssdk.version>
+        <aws-lambda-java-core.version>1.2.2</aws-lambda-java-core.version>
         <aws-lambda-java-events.version>3.11.0</aws-lambda-java-events.version>
-        <spring-boot-thin-layout.version>1.0.28.RELEASE</spring-boot-thin-layout.version>
+        <spring-boot-thin-layout.version>1.0.29.RELEASE</spring-boot-thin-layout.version>
     </properties>
 
     <dependencies>
@@ -68,6 +69,13 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <dependency>
+                <groupId>software.amazon.awssdk</groupId>
+                <artifactId>bom</artifactId>
+                <version>${amazon-awssdk.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -106,6 +114,7 @@
                     <createDependencyReducedPom>false</createDependencyReducedPom>
                     <shadedArtifactAttached>true</shadedArtifactAttached>
                     <shadedClassifierName>aws</shadedClassifierName>
+                    <finalName>dynamodb-lambda-function-java${java.version}-aws</finalName>
                 </configuration>
             </plugin>
         </plugins>

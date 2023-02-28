@@ -6,10 +6,10 @@ echo "------------------"
 ./mvnw clean package --projects dynamodb-lambda-function -DskipTests
 
 echo
-echo "Copying to tmp/localstack folder"
-echo "--------------------------------"
+echo "Copying to dynamodb-lambda-function/shared folder"
+echo "-------------------------------------------------"
 mkdir -p dynamodb-lambda-function/shared
-cp dynamodb-lambda-function/target/dynamodb-lambda-function-1.0.0-aws.jar dynamodb-lambda-function/shared
+cp dynamodb-lambda-function/target/dynamodb-lambda-function-java11-aws.jar dynamodb-lambda-function/shared
 
 echo "Done!"
 echo
