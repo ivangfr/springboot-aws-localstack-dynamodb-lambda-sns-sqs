@@ -4,7 +4,7 @@ services:
 
   localstack:
     container_name: localstack
-    image: localstack/localstack:1.0.3 # NOTE: I've tried version above this one, but it didn't work.
+    image: localstack/localstack:1.4.0
     ports:
       - "127.0.0.1:4510-4559:4510-4559"  # external service port range
       - "127.0.0.1:4566:4566"            # LocalStack Edge Proxy
@@ -17,10 +17,8 @@ services:
       - LAMBDA_DOCKER_NETWORK=springboot-aws-localstack-dynamodb-lambda-sns-sqs_default
       # ---
       - DEBUG=${DEBUG-}
-      - LAMBDA_EXECUTOR=${LAMBDA_EXECUTOR-docker-reuse} # important config so that lambda works
-      - LAMBDA_REMOTE_DOCKER=false                      # important config so that lambda works
-      - LOCALSTACK_API_KEY=${LOCALSTACK_API_KEY-}       # only required for Pro
-      - HOST_TMP_FOLDER=$PWD/tmp/folder
+      - LAMBDA_EXECUTOR=${LAMBDA_EXECUTOR-docker-reuse}
+      - LAMBDA_REMOTE_DOCKER=false
       - DOCKER_HOST=unix:///var/run/docker.sock
     volumes:
       - "$PWD/tmp/localstack:/var/lib/localstack"

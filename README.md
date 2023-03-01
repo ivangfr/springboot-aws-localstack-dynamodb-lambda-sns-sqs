@@ -71,6 +71,8 @@ In this project, we are going to use [`LocalStack`](https://localstack.cloud/) t
   - create `News` table in `DynamoDB`;
   - create `ProcessDynamoDBEvent` Lambda function;
   - create an `event-source-mapping` to connect `DynamoDB` to `ProcessDynamoDBEvent` Lambda function.
+  
+  > **Warning**: it takes around 5 minutes for the `ProcessDynamoDBEvent` Lambda function to have an `Active` state.
 
 ## Running applications with Maven
 
@@ -142,8 +144,6 @@ In this project, we are going to use [`LocalStack`](https://localstack.cloud/) t
     ```
     curl -i -X POST http://localhost:9080/api/news/randomly
     ```
-
-    > **Warning**: As soon as the first request is submitted, it will take some minutes for `dynamodb-lambda-function` to start. In my machine, it's taking around 3 - 4 minutes. So, be patient :)
 
   - In `news-consumer` UI, the news should be displayed
 
