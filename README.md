@@ -4,7 +4,7 @@ In this project, we are going to use [`LocalStack`](https://localstack.cloud/) t
 
 ## Project Diagram
 
-![project-diagram](documentation/project-diagram.png)
+![project-diagram](documentation/project-diagram.jpeg)
 
 ## Applications
 
