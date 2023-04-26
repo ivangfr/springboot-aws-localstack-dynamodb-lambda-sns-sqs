@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.9</version>
+        <version>2.7.11</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -15,10 +15,10 @@
 
     <properties>
         <java.version>11</java.version> <!-- NOTE: java17 is not yet supported, see https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html -->
-        <spring-cloud.version>2021.0.4</spring-cloud.version>
-        <amazon-awssdk.version>2.20.12</amazon-awssdk.version>
+        <spring-cloud.version>2021.0.6</spring-cloud.version>
+        <amazon-awssdk.version>2.20.50</amazon-awssdk.version>
         <aws-lambda-java-core.version>1.2.2</aws-lambda-java-core.version>
-        <aws-lambda-java-events.version>3.11.0</aws-lambda-java-events.version>
+        <aws-lambda-java-events.version>3.11.1</aws-lambda-java-events.version>
         <spring-boot-thin-layout.version>1.0.29.RELEASE</spring-boot-thin-layout.version>
     </properties>
 

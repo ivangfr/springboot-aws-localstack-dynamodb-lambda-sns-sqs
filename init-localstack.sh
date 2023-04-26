@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 if ! [[ $(docker ps -q -f name=localstack) ]]; then
-    echo "WARNING: The localstack Docker container is not running. Please, start it first."
-    exit 1
+  echo "WARNING: The localstack Docker container is not running. Please, start it first."
+  exit 1
 fi
 
 echo
