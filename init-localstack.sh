@@ -54,6 +54,7 @@ echo "----------------------------------------------------"
 docker exec -t localstack aws --endpoint-url=http://localhost:4566 lambda create-function \
   --function-name ProcessDynamoDBEvent \
   --runtime java11 \
+  --memory-size 512 \
   --handler org.springframework.cloud.function.adapter.aws.FunctionInvoker::handleRequest \
   --zip-file fileb:///dynamodb-lambda-function/shared/dynamodb-lambda-function-java11-aws.jar \
   --role arn:aws:iam::000000000000:role/service-role/irrelevant \
