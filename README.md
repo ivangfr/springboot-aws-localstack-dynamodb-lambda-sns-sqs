@@ -38,7 +38,6 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 
 - [`Java 17+`](https://www.oracle.com/java/technologies/downloads/#java17)
 - [`Docker`](https://www.docker.com/)
-- [`Docker-Compose`](https://docs.docker.com/compose/install/)
 
 ## Package dynamodb-lambda-function jar
 
@@ -56,7 +55,7 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 
 - Start `LocalStack` Docker container
   ```
-  DEBUG=1 docker-compose up -d
+  DEBUG=1 docker compose up -d
   ```
 
 - \[Optional\] Debug logs are enabled so that we have more insights about what is happening. To monitor `localstack` Docker container logs, run the command below
@@ -169,9 +168,9 @@ In the `GIF` below, we use `news-producer` Swagger UI to create one random news.
 ## Shutdown
 
 - To stop applications, go to the terminal where they are running and press `Ctrl+C`
-- To stop and remove `docker-compose` containers, network and volumes, go to a terminal and, inside `springboot-aws-localstack-dynamodb-lambda-sns-sqs` root folder, run the following command
+- To stop and remove docker compose containers, network and volumes, go to a terminal and, inside `springboot-aws-localstack-dynamodb-lambda-sns-sqs` root folder, run the following command
   ```
-  docker-compose down -v
+  docker compose down -v
   ```
 
 ## Cleanup
