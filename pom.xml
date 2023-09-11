@@ -18,7 +18,7 @@
 
     <properties>
         <java.version>17</java.version>
-        <amazon-awssdk.version>2.20.50</amazon-awssdk.version>
+        <amazon-awssdk.version>2.20.144</amazon-awssdk.version>
         <jib-maven-plugin.version>3.3.2</jib-maven-plugin.version>
         <docker-image.prefix>ivanfranchin</docker-image.prefix>
     </properties>
