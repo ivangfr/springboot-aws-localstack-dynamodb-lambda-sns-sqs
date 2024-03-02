@@ -1,6 +1,5 @@
 package com.ivanfranchin.newsconsumer.client;
 
-import com.ivanfranchin.newsconsumer.domain.News;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

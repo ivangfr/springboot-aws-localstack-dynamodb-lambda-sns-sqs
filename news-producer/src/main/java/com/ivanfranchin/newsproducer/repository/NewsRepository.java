@@ -1,6 +1,6 @@
 package com.ivanfranchin.newsproducer.repository;
 
-import com.ivanfranchin.newsproducer.event.News;
+import com.ivanfranchin.newsproducer.model.News;
 
 import java.util.List;
 import java.util.Optional;

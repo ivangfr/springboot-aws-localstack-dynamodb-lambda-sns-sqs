@@ -4,7 +4,7 @@ services:
 
   localstack:
     container_name: localstack
-    image: localstack/localstack:2.2.0
+    image: localstack/localstack:3.2.0
     ports:
       - "127.0.0.1:4510-4559:4510-4559"  # external service port range
       - "127.0.0.1:4566:4566"            # LocalStack Edge Proxy
@@ -13,13 +13,11 @@ services:
       - AWS_ACCESS_KEY_ID=key
       - AWS_SECRET_ACCESS_KEY=secret
       - AWS_DEFAULT_REGION=eu-west-1
-      - SERVICES=sns,sqs,dynamodb,lambda
-      - LAMBDA_DOCKER_NETWORK=springboot-aws-localstack-dynamodb-lambda-sns-sqs_default
+      - SERVICES=dynamodb,sns,sqs,lambda
       # ---
       - DEBUG=${DEBUG-}
       - LAMBDA_EXECUTOR=${LAMBDA_EXECUTOR-docker-reuse}
       - LAMBDA_REMOTE_DOCKER=false
-      - DOCKER_HOST=unix:///var/run/docker.sock
     volumes:
       - "$PWD/tmp/localstack:/var/lib/localstack"
       - "$PWD/dynamodb-lambda-function/shared:/dynamodb-lambda-function/shared"

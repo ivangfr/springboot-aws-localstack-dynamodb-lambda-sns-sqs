@@ -74,8 +74,6 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
   - create `News` table in `DynamoDB`;
   - create `ProcessDynamoDBEvent` Lambda function;
   - create an `event-source-mapping` to connect `DynamoDB` to `ProcessDynamoDBEvent` Lambda function.
-  
-  > **Warning**: it takes around 5 minutes for the `ProcessDynamoDBEvent` Lambda function to have an `Active` state.
 
 ## Running applications with Maven
 

@@ -1,6 +1,6 @@
 package com.ivanfranchin.newsproducer.service;
 
-import com.ivanfranchin.newsproducer.event.News;
+import com.ivanfranchin.newsproducer.model.News;
 import com.ivanfranchin.newsproducer.exception.NewsNotFoundException;
 import com.ivanfranchin.newsproducer.repository.NewsRepository;
 import lombok.RequiredArgsConstructor;

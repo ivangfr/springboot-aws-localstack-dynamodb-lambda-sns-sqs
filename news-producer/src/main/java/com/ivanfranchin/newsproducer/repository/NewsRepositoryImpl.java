@@ -1,7 +1,7 @@
 package com.ivanfranchin.newsproducer.repository;
 
-import com.ivanfranchin.newsproducer.event.News;
-import com.ivanfranchin.newsproducer.property.AwsProperties;
+import com.ivanfranchin.newsproducer.model.News;
+import com.ivanfranchin.newsproducer.properties.AwsProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;

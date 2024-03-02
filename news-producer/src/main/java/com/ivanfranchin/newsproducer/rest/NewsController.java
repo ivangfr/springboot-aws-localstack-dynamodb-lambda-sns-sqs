@@ -1,6 +1,6 @@
 package com.ivanfranchin.newsproducer.rest;
 
-import com.ivanfranchin.newsproducer.event.News;
+import com.ivanfranchin.newsproducer.model.News;
 import com.ivanfranchin.newsproducer.rest.dto.CreateNewsRequest;
 import com.ivanfranchin.newsproducer.service.NewsService;
 import com.ivanfranchin.newsproducer.service.RandomNewsGenerator;

@@ -1,4 +1,4 @@
-package com.ivanfranchin.newsproducer.property;
+package com.ivanfranchin.dynamodblambdafunction.properties;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -27,13 +27,13 @@ public class AwsProperties {
     private String endpoint;
 
     @NotNull
-    private DynamoDB dynamoDB;
+    private SNS sns;
 
     @Data
     @Valid
-    public static class DynamoDB {
+    public static class SNS {
 
         @NotBlank
-        private String tableName;
+        private String topicArn;
     }
 }

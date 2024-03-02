@@ -1,4 +1,4 @@
-package com.ivanfranchin.newsconsumer.domain;
+package com.ivanfranchin.newsconsumer.client;
 
 import java.util.Date;
 

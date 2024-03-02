@@ -1,6 +1,6 @@
 package com.ivanfranchin.newsproducer.config;
 
-import com.ivanfranchin.newsproducer.property.AwsProperties;
+import com.ivanfranchin.newsproducer.properties.AwsProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

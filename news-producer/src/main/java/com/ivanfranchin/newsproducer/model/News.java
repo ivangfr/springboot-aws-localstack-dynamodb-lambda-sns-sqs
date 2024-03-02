@@ -1,4 +1,4 @@
-package com.ivanfranchin.newsproducer.event;
+package com.ivanfranchin.newsproducer.model;
 
 import java.time.ZonedDateTime;
 

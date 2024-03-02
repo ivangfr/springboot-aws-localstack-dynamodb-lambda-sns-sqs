@@ -1,18 +1,6 @@
 package com.ivanfranchin.dynamodblambdafunction.event;
 
-import lombok.Value;
-
-@Value(staticConstructor = "of")
-public class NewsEvent {
-
-    String action;
-    News news;
-
-    @Value(staticConstructor = "of")
-    public static class News {
-
-        String id;
-        String title;
-        String publishedAt;
+public record NewsEvent(String action, News news) {
+    public record News(String id, String title, String publishedAt) {
     }
 }

@@ -21,7 +21,6 @@ public class NewsConsumer {
     private final SimpMessagingTemplate simpMessagingTemplate;
     private final NewsMapper newsMapper;
 
-
     @Scheduled(fixedRate = 5000)
     public void scheduledConsumer() {
         ReceiveMessageRequest receiveMessageRequest = ReceiveMessageRequest.builder()

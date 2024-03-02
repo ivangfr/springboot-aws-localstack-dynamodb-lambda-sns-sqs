@@ -5,7 +5,7 @@ import com.amazonaws.services.lambda.runtime.events.models.dynamodb.AttributeVal
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ivanfranchin.dynamodblambdafunction.event.NewsEvent;
-import com.ivanfranchin.dynamodblambdafunction.property.AwsProperties;
+import com.ivanfranchin.dynamodblambdafunction.properties.AwsProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import software.amazon.awssdk.services.sns.SnsClient;
@@ -26,28 +26,32 @@ public class DynamodbEventHandler implements Consumer<DynamodbEvent> {
     public void accept(DynamodbEvent dynamodbEvent) {
         dynamodbEvent.getRecords()
                 .stream()
-                .map(record -> {
-                    Map<String, AttributeValue> image = record.getDynamodb().getNewImage();
-                    if (image == null) {
-                        image = record.getDynamodb().getOldImage();
-                    }
-                    return NewsEvent.of(
-                            record.getEventName(),
-                            NewsEvent.News.of(
-                                    image.get("Id").getS(),
-                                    image.get("Title").getS(),
-                                    image.get("PublishedAt").getS()
-                            )
-                    );
-                })
-                .forEach(newsEvent ->
-                        snsClient.publish(
-                                PublishRequest.builder()
-                                        .topicArn(awsProperties.getSns().getTopicArn())
-                                        .message(toJson(newsEvent))
-                                        .build()
-                        )
-                );
+                .map(this::toNewsEvent)
+                .forEach(this::publishNewsEvent);
+    }
+
+    private NewsEvent toNewsEvent(DynamodbEvent.DynamodbStreamRecord record) {
+        Map<String, AttributeValue> image = record.getDynamodb().getNewImage();
+        if (image == null) {
+            image = record.getDynamodb().getOldImage();
+        }
+        return new NewsEvent(
+                record.getEventName(),
+                new NewsEvent.News(
+                        image.get("Id").getS(),
+                        image.get("Title").getS(),
+                        image.get("PublishedAt").getS()
+                )
+        );
+    }
+
+    private void publishNewsEvent(NewsEvent newsEvent) {
+        snsClient.publish(
+                PublishRequest.builder()
+                        .topicArn(awsProperties.getSns().getTopicArn())
+                        .message(toJson(newsEvent))
+                        .build()
+        );
     }
 
     private String toJson(NewsEvent newsEvent) {

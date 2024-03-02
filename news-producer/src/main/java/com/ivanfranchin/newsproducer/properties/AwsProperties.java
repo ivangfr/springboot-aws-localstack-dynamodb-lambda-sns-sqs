@@ -1,13 +1,12 @@
-package com.ivanfranchin.dynamodblambdafunction.property;
+package com.ivanfranchin.newsproducer.properties;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.validation.annotation.Validated;
-
-import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 @Data
 @Validated
@@ -28,13 +27,13 @@ public class AwsProperties {
     private String endpoint;
 
     @NotNull
-    private SNS sns;
+    private DynamoDB dynamoDB;
 
     @Data
     @Valid
-    public static class SNS {
+    public static class DynamoDB {
 
         @NotBlank
-        private String topicArn;
+        private String tableName;
     }
 }

@@ -1,6 +1,6 @@
 package com.ivanfranchin.newsproducer.service;
 
-import com.ivanfranchin.newsproducer.event.News;
+import com.ivanfranchin.newsproducer.model.News;
 import org.springframework.stereotype.Component;
 
 import java.security.SecureRandom;

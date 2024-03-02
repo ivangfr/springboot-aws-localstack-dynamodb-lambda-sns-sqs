@@ -1,4 +1,4 @@
-package com.ivanfranchin.newsconsumer.client;
+package com.ivanfranchin.newsconsumer.config;
 
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
