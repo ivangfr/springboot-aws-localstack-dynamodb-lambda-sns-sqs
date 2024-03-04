@@ -4,16 +4,14 @@ import com.ivanfranchin.newsproducer.model.News;
 import org.springframework.stereotype.Component;
 
 import java.security.SecureRandom;
-import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Random;
-import java.util.UUID;
 
 @Component
 public class RandomNewsGenerator {
 
     public News getRandomly() {
-        return new News(UUID.randomUUID().toString(), TITLES.get(random.nextInt(TITLES.size())), ZonedDateTime.now());
+        return new News(TITLES.get(random.nextInt(TITLES.size())));
     }
 
     private final Random random = new SecureRandom();

@@ -34,11 +34,9 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-websocket</artifactId>
         </dependency>
-
-        <!-- AWS -->
         <dependency>
-            <groupId>software.amazon.awssdk</groupId>
-            <artifactId>sqs</artifactId>
+            <groupId>io.awspring.cloud</groupId>
+            <artifactId>spring-cloud-aws-starter-sqs</artifactId>
         </dependency>
 
         <dependency>

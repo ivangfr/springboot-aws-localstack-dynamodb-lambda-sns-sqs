@@ -10,7 +10,7 @@ public interface NewsService {
 
     List<News> getNews();
 
-    News validateAndGetNew(String id);
+    News validateAndGetNews(String id);
 
     void deleteNews(String id);
 }

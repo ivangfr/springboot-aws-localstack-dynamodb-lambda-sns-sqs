@@ -14,18 +14,6 @@ import org.springframework.validation.annotation.Validated;
 @ConfigurationProperties(prefix = "aws")
 public class AwsProperties {
 
-    @NotBlank
-    private String region;
-
-    @NotBlank
-    private String accessKey;
-
-    @NotBlank
-    private String secretAccessKey;
-
-    @NotBlank
-    private String endpoint;
-
     @NotNull
     private SNS sns;
 
@@ -34,6 +22,6 @@ public class AwsProperties {
     public static class SNS {
 
         @NotBlank
-        private String topicArn;
+        private String destination;
     }
 }

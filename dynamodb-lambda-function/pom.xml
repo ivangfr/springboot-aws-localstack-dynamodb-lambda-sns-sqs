@@ -29,12 +29,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.awspring.cloud</groupId>
+            <artifactId>spring-cloud-aws-starter-sns</artifactId>
+        </dependency>
 
         <!-- AWS -->
-        <dependency>
-            <groupId>software.amazon.awssdk</groupId>
-            <artifactId>sns</artifactId>
-        </dependency>
         <dependency>
             <groupId>com.amazonaws</groupId>
             <artifactId>aws-lambda-java-core</artifactId>

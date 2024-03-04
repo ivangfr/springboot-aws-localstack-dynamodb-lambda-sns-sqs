@@ -30,11 +30,9 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
-        <!-- AWS -->
         <dependency>
-            <groupId>software.amazon.awssdk</groupId>
-            <artifactId>dynamodb</artifactId>
+            <groupId>io.awspring.cloud</groupId>
+            <artifactId>spring-cloud-aws-starter-dynamodb</artifactId>
         </dependency>
 
         <!-- SpringDoc OpenApi -->

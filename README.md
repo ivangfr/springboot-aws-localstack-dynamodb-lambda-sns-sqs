@@ -1,6 +1,6 @@
 # springboot-aws-localstack-dynamodb-lambda-sns-sqs
 
-In this project, we are going to use [`LocalStack`](https://localstack.cloud/) to simulate locally, some services provided by [`AWS Cloud`](https://aws.amazon.com/) such as: [`DynamoDB`](https://aws.amazon.com/dynamodb/), [`Lambda`](https://aws.amazon.com/lambda/), [`SNS`](https://aws.amazon.com/sns/) and [`SQS`](https://aws.amazon.com/sqs/).
+In this project, we are going to use [`LocalStack`](https://localstack.cloud/) to simulate locally, some services provided by [`AWS Cloud`](https://aws.amazon.com/) such as: [`DynamoDB`](https://aws.amazon.com/dynamodb/), [`Lambda`](https://aws.amazon.com/lambda/), [`SNS`](https://aws.amazon.com/sns/) and [`SQS`](https://aws.amazon.com/sqs/). Also, in order to simplify the use of AWS managed services, we are going to use [`Spring Cloud AWS`](https://docs.awspring.io/spring-cloud-aws/docs/3.0.0/reference/html/index.html).
 
 ## Proof-of-Concepts & Articles
 
@@ -71,7 +71,7 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
   - create `news-topic` in `SNS`;
   - create `news-consumer-queue` in `SQS`;
   - subscribe `news-consumer-queue` to `news-topic`;
-  - create `News` table in `DynamoDB`;
+  - create `news` table in `DynamoDB`;
   - create `ProcessDynamoDBEvent` Lambda function;
   - create an `event-source-mapping` to connect `DynamoDB` to `ProcessDynamoDBEvent` Lambda function.
 
@@ -81,14 +81,16 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 
   In a terminal and, inside `springboot-aws-localstack-dynamodb-lambda-sns-sqs` root folder, run the following command
   ```
-  ./mvnw clean spring-boot:run --projects news-producer -Dspring-boot.run.jvmArguments="-Daws.accessKey=key -Daws.secretAccessKey=secret"
+  export AWS_REGION=eu-west-1 && export AWS_ACCESS_KEY_ID=key && export AWS_SECRET_ACCESS_KEY=secret && \
+    ./mvnw clean spring-boot:run --projects news-producer
   ```
 
 - **news-consumer**
 
   In another terminal and, inside `springboot-aws-localstack-dynamodb-lambda-sns-sqs` root folder, run the command below
   ```
-  ./mvnw clean spring-boot:run --projects news-consumer -Dspring-boot.run.jvmArguments="-Daws.accessKey=key -Daws.secretAccessKey=secret"
+  export AWS_REGION=eu-west-1 && export AWS_ACCESS_KEY_ID=key && export AWS_SECRET_ACCESS_KEY=secret && \
+    ./mvnw clean spring-boot:run --projects news-consumer
   ```
 
 ## Running applications as Docker container
@@ -107,7 +109,7 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
     In a terminal, run the following command
     ```
     docker run --rm --name news-producer -p 9080:9080 \
-      -e AWS_ACCESS_KEY=key -e AWS_SECRET_ACCESS_KEY=secret \
+      -e AWS_REGION=eu-west-1 -e AWS_ACCESS_KEY_ID=key -e AWS_SECRET_ACCESS_KEY=secret \
       --network=springboot-aws-localstack-dynamodb-lambda-sns-sqs_default \
       ivanfranchin/news-producer:1.0.0
     ```
@@ -117,7 +119,7 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
     In a new terminal, run the command below
     ```
     docker run --rm --name news-consumer -p 9081:9081 \
-      -e AWS_ACCESS_KEY=key -e AWS_SECRET_ACCESS_KEY=secret \
+      -e AWS_REGION=eu-west-1 -e AWS_ACCESS_KEY_ID=key -e AWS_SECRET_ACCESS_KEY=secret \
       -e NEWS_PRODUCER_URL=http://news-producer:9080 \
       --network=springboot-aws-localstack-dynamodb-lambda-sns-sqs_default \
       ivanfranchin/news-consumer:1.0.0

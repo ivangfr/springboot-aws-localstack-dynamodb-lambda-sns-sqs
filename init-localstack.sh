@@ -30,22 +30,23 @@ echo "---------------------------------------------"
 docker exec -t localstack aws --endpoint-url=http://localhost:4566 sns subscribe \
   --topic-arn arn:aws:sns:eu-west-1:000000000000:news-topic \
   --protocol sqs \
+  --attributes '{"RawMessageDelivery":"true"}' \
   --notification-endpoint arn:aws:sqs:eu-west-1:000000000000:news-consumer-queue
 
 echo
-echo "Creating News table in DynamoDB"
+echo "Creating news table in DynamoDB"
 echo "-------------------------------"
 docker exec -t localstack aws --endpoint-url=http://localhost:4566 dynamodb create-table \
-  --table-name News \
-  --attribute-definitions AttributeName=Id,AttributeType=S \
-  --key-schema AttributeName=Id,KeyType=HASH \
+  --table-name news \
+  --attribute-definitions AttributeName=id,AttributeType=S \
+  --key-schema AttributeName=id,KeyType=HASH \
   --provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5 \
   --stream-specification StreamEnabled=true,StreamViewType=NEW_AND_OLD_IMAGES
 
 echo
-echo "Getting News table DynamoDB Stream ARN"
+echo "Getting news table DynamoDB Stream ARN"
 echo "--------------------------------------"
-NEWS_TABLE_DYNAMODB_STREAM_ARN=$(docker exec -t localstack aws --endpoint-url=http://localhost:4566 dynamodb describe-table --table-name News | jq -r '.Table.LatestStreamArn')
+NEWS_TABLE_DYNAMODB_STREAM_ARN=$(docker exec -t localstack aws --endpoint-url=http://localhost:4566 dynamodb describe-table --table-name news | jq -r '.Table.LatestStreamArn')
 echo "NEWS_TABLE_DYNAMODB_STREAM_ARN=${NEWS_TABLE_DYNAMODB_STREAM_ARN}"
 
 echo
@@ -57,12 +58,12 @@ docker exec -t localstack aws --endpoint-url=http://localhost:4566 lambda create
   --memory-size 512 \
   --handler org.springframework.cloud.function.adapter.aws.FunctionInvoker::handleRequest \
   --zip-file fileb:///dynamodb-lambda-function/shared/dynamodb-lambda-function-java17-aws.jar \
-  --environment "Variables={AWS_ACCESS_KEY=key,AWS_SECRET_ACCESS_KEY=secret}" \
+  --environment "Variables={AWS_REGION=eu-west-1,AWS_ACCESS_KEY_ID=key,AWS_SECRET_ACCESS_KEY=secret}" \
   --role arn:aws:iam::000000000000:role/service-role/irrelevant \
   --timeout 60
 
 echo
-echo "Creating a mapping between News Table DynamoDB event source and ProcessDynamoDBEvent lambda function"
+echo "Creating a mapping between news table DynamoDB event source and ProcessDynamoDBEvent lambda function"
 echo "----------------------------------------------------------------------------------------------------"
 docker exec -t localstack aws --endpoint-url=http://localhost:4566 lambda create-event-source-mapping \
   --function-name ProcessDynamoDBEvent \

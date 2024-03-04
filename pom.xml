@@ -19,6 +19,7 @@
     <properties>
         <java.version>17</java.version>
         <amazon-awssdk.version>2.25.0</amazon-awssdk.version>
+        <spring-cloud-aws.version>3.0.0</spring-cloud-aws.version>
         <jib-maven-plugin.version>3.4.1</jib-maven-plugin.version>
         <docker-image.prefix>ivanfranchin</docker-image.prefix>
     </properties>
@@ -31,10 +32,18 @@
 
     <dependencyManagement>
         <dependencies>
+            <!-- To choose the AWS SDK version -->
             <dependency>
                 <groupId>software.amazon.awssdk</groupId>
                 <artifactId>bom</artifactId>
                 <version>${amazon-awssdk.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.awspring.cloud</groupId>
+                <artifactId>spring-cloud-aws-dependencies</artifactId>
+                <version>${spring-cloud-aws.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
