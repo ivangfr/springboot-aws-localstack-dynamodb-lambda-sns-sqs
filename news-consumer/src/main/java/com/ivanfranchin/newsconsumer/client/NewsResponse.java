@@ -2,5 +2,5 @@ package com.ivanfranchin.newsconsumer.client;
 
 import java.util.Date;
 
-public record News(String id, String title, Date publishedAt) {
+public record NewsResponse(String id, String title, Date publishedAt) {
 }
