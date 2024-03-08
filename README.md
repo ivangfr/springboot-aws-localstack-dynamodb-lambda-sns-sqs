@@ -1,6 +1,6 @@
 # springboot-aws-localstack-dynamodb-lambda-sns-sqs
 
-In this project, we are going to use [`LocalStack`](https://localstack.cloud/) to simulate locally, some services provided by [`AWS Cloud`](https://aws.amazon.com/) such as: [`DynamoDB`](https://aws.amazon.com/dynamodb/), [`Lambda`](https://aws.amazon.com/lambda/), [`SNS`](https://aws.amazon.com/sns/) and [`SQS`](https://aws.amazon.com/sqs/). Also, in order to simplify the use of AWS managed services, we are going to use [`Spring Cloud AWS`](https://docs.awspring.io/spring-cloud-aws/docs/3.0.0/reference/html/index.html).
+In this project, we are going to use [`LocalStack`](https://localstack.cloud/) to simulate locally, some services provided by [`AWS Cloud`](https://aws.amazon.com/) such as: [`DynamoDB`](https://aws.amazon.com/dynamodb/), [`Lambda`](https://aws.amazon.com/lambda/), [`SNS`](https://aws.amazon.com/sns/) and [`SQS`](https://aws.amazon.com/sqs/). Also, in order to simplify the use of AWS managed services, we are going to use [`Spring Cloud AWS`](https://spring.io/projects/spring-cloud-aws).
 
 ## Proof-of-Concepts & Articles
 
@@ -14,25 +14,26 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 
 - ### news-producer
 
-  [`Spring Boot`](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/) Java Web application that exposes a REST API to manage news.
+  [`Spring Boot`](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/) Java Web application that exposes a REST API to manage news. It uses DynamoDB as database.
 
   It has the following endpoints:
   ```
      GET /api/news
      GET /api/news/{id}
     POST /api/news {"title": "..."}
+    POST /api/news/randomly
   DELETE /api/news/{id}
   ```
 
 - ### dynamodb-lambda-function
 
-  [`Spring Cloud Function`](https://docs.spring.io/spring-cloud-function/docs/current/reference/html/spring-cloud-function.html) application that uses [`AWS Adapter`](https://docs.spring.io/spring-cloud-function/docs/current/reference/html/aws.html) to convert it to a form that can run in `AWS Lambda`.
+  [`Spring Cloud Function`](https://spring.io/projects/spring-cloud-function) application that uses [`AWS Adapter`](https://docs.spring.io/spring-cloud-function/reference/adapters/aws-intro.html) to convert it to a form that can run in `AWS Lambda`.
 
-  `dynamodb-lambda-function` listens to events emitted by an event-source created to monitor changes in `DynamoDB`. Once it receives an event, it processes it and publishes a new event to `SNS`.
+  `dynamodb-lambda-function` listens to events emitted by an event-source created to monitor changes in `DynamoDB` news table. Once it receives an event, it processes it and publishes a news event to an `SNS` topic. Later, `SNS` publishes the news event to a `SQS` queue.
 
 - ### news-consumer
 
-  `Spring Boot` Java Web application that consumes the events that `dynamodb-lambda-function` publishes to `SNS`. These events are queued in a `SQS`.
+  `Spring Boot` Java Web application that polls the news events that are queued in a `SQS` queue.
 
 ## Prerequisites
 
