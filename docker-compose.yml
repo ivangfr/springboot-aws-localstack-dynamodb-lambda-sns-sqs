@@ -16,11 +16,9 @@ services:
       - SERVICES=dynamodb,sns,sqs,lambda
       # ---
       - DEBUG=${DEBUG-}
-      - LAMBDA_EXECUTOR=${LAMBDA_EXECUTOR-docker-reuse}
-      - LAMBDA_REMOTE_DOCKER=false
     volumes:
       - "$PWD/tmp/localstack:/var/lib/localstack"
-      - "$PWD/dynamodb-lambda-function/shared:/dynamodb-lambda-function/shared"
+      - "$PWD/dynamodb-lambda-function/shared:/shared"
       - "/var/run/docker.sock:/var/run/docker.sock"
     networks:
       default:
