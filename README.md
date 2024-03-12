@@ -2,9 +2,15 @@
 
 In this project, we are going to use [`LocalStack`](https://localstack.cloud/) to simulate locally, some services provided by [`AWS Cloud`](https://aws.amazon.com/) such as: [`DynamoDB`](https://aws.amazon.com/dynamodb/), [`Lambda`](https://aws.amazon.com/lambda/), [`SNS`](https://aws.amazon.com/sns/) and [`SQS`](https://aws.amazon.com/sqs/). Also, in order to simplify the use of AWS managed services, we are going to use [`Spring Cloud AWS`](https://spring.io/projects/spring-cloud-aws).
 
+> **Note**: Also, take a look at the [`springboot-aws-localstack-opensearch-s3-secretsmanager`](https://github.com/ivangfr/springboot-aws-localstack-opensearch-s3-secretsmanager) repository. There, we have implemented two Spring Boot applications for indexing and searching movies. We also used LocalStack to simulate AWS Cloud services locally, such as [`OpenSearch`](https://aws.amazon.com/opensearch-service/), [`S3`](https://aws.amazon.com/s3/), and [`Secrets Manager`](https://aws.amazon.com/secrets-manager/).
+
 ## Proof-of-Concepts & Articles
 
 On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-Concepts (PoCs) and articles. You can easily search for the technology you are interested in by using the filter. Who knows, perhaps I have already implemented a PoC or written an article about what you are looking for.
+
+## Additional Readings
+
+- \[**Medium**\] [**Spring Boot apps to trigger and consume DynamoDB News table updates using AWS Lambda, SNS and SQS**](https://medium.com/@ivangfr/spring-boot-apps-to-trigger-and-consume-dynamodb-news-table-updates-using-aws-lambda-sns-and-sqs-957570cf9a3a)
 
 ## Project Diagram
 
