@@ -14,6 +14,8 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 - \[**Medium**\] [**Spring Boot Apps for Movie Indexing/Search with AWS OpenSearch, S3 and Secrets Manager**](https://medium.com/@ivangfr/spring-boot-apps-for-movie-indexing-search-with-aws-opensearch-s3-and-secrets-manager-a95ad0697e51)
 - \[**Medium**\] [**Implementing a Spring Boot App using AWS DynamoDB as database**](https://medium.com/@ivangfr/implementing-a-spring-boot-app-using-aws-dynamodb-as-database-5dbf8b7fc924)
 - \[**Medium**\] [**Implementing a Spring Boot App that uses AWS Secrets Manager to store its MongoDB credentials**](https://medium.com/@ivangfr/implementing-a-spring-boot-app-that-uses-aws-secrets-manager-to-store-its-mongodb-credentials-f805a4c74d9a)
+- \[**Medium**\] [**Implementing a Serverless AWS Lambda with Spring Cloud Function & AWS Adapter**](https://medium.com/@ivangfr/implementing-a-serverless-aws-lambda-with-spring-cloud-function-aws-adapter-05fd6d48ba45)
+- \[**Medium**\] [**Using AWS SNS and SQS to stream Alerts from a Spring Boot producer to consumers**](https://medium.com/@ivangfr/using-aws-sns-and-sqs-to-stream-alerts-from-a-spring-boot-producer-to-consumers-0b0a974e40fc)
 
 ## Project Diagram
 
