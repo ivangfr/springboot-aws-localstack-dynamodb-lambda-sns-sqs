@@ -71,27 +71,6 @@ docker exec -t localstack aws --endpoint-url=http://localhost:4566 lambda create
   --starting-position LATEST
 
 echo
-echo "Waiting for ProcessDynamoDBEvent lambda function to change the state from Pending to Active"
-echo "-------------------------------------------------------------------------------------------"
-TIMEOUT=$((7 * 60))  # set timeout to 7 minutes
-WAIT_INTERVAL=1
-for ((i=0; i<TIMEOUT; i+=WAIT_INTERVAL)); do
-  VAR=$(docker exec -t localstack aws --endpoint-url=http://localhost:4566 lambda get-function --function-name ProcessDynamoDBEvent --query 'Configuration.[State, LastUpdateStatus]' | jq -r ".[0]")
-  if [ "$VAR" = "Active" ] ; then
-    echo
-    echo "ProcessDynamoDBEvent lambda function is Active!"
-    break
-  fi
-  if [ $i -ge $TIMEOUT ] ; then
-    echo
-    echo "Waiting for ProcessDynamoDBEvent lambda function to become Active... TIMEOUT"
-    break
-  fi
-  printf "."
-  sleep $WAIT_INTERVAL
-done
-
-echo
 echo "LocalStack initialized successfully"
 echo "==================================="
 echo
