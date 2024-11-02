@@ -54,10 +54,10 @@ echo "Creating Lambda Function called ProcessDynamoDBEvent"
 echo "----------------------------------------------------"
 docker exec -t localstack aws --endpoint-url=http://localhost:4566 lambda create-function \
   --function-name ProcessDynamoDBEvent \
-  --runtime java17 \
+  --runtime java21 \
   --memory-size 512 \
   --handler org.springframework.cloud.function.adapter.aws.FunctionInvoker::handleRequest \
-  --zip-file fileb:///shared/dynamodb-lambda-function-java17-aws.jar \
+  --zip-file fileb:///shared/dynamodb-lambda-function-java21-aws.jar \
   --environment "Variables={AWS_REGION=eu-west-1,AWS_ACCESS_KEY_ID=key,AWS_SECRET_ACCESS_KEY=secret}" \
   --role arn:aws:iam::000000000000:role/service-role/irrelevant \
   --timeout 60
