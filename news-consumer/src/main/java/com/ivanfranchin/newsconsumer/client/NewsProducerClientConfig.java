@@ -14,8 +14,8 @@ public class NewsProducerClientConfig {
     private String newsProducerUrl;
 
     @Bean
-    public NewsProducerClient newsProducerClient() {
-        RestClient restClient = RestClient.builder().baseUrl(newsProducerUrl).build();
+    NewsProducerClient newsProducerClient(RestClient.Builder builder) {
+        RestClient restClient = builder.baseUrl(newsProducerUrl).build();
         RestClientAdapter adapter = RestClientAdapter.create(restClient);
         HttpServiceProxyFactory factory = HttpServiceProxyFactory.builderFor(adapter).build();
         return factory.createClient(NewsProducerClient.class);
