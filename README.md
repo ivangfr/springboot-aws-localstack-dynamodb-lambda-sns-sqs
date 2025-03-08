@@ -48,34 +48,34 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 
 ## Prerequisites
 
-- [`Java 21+`](https://www.oracle.com/java/technologies/downloads/#java21)
-- [`Docker`](https://www.docker.com/)
+- [`Java 21`](https://www.oracle.com/java/technologies/downloads/#java21) or higher;
+- A containerization tool (e.g., [`Docker`](https://www.docker.com), [`Podman`](https://podman.io), etc.)
 
 ## Package dynamodb-lambda-function jar
 
-- In a terminal, make sure you inside `springboot-aws-localstack-dynamodb-lambda-sns-sqs` root folder
+- In a terminal, make sure you inside `springboot-aws-localstack-dynamodb-lambda-sns-sqs` root folder:
 
-- Run the following script
+- Run the following script:
   ```
   ./package-dynamodb-lambda-function-jar.sh
   ```
-  When `Maven` packaging finishes, the jar file generated in `dynamodb-lambda-function/target` folder is copied to `dynamodb-lambda-function/shared` folder
+  When `Maven` packaging finishes, the jar file generated in `dynamodb-lambda-function/target` folder is copied to `dynamodb-lambda-function/shared` folder.
 
 ## Start and Initialize LocalStack
 
-- In a terminal, make sure you are in inside `springboot-aws-localstack-dynamodb-lambda-sns-sqs` root folder
+- In a terminal, make sure you are in inside `springboot-aws-localstack-dynamodb-lambda-sns-sqs` root folder:
 
-- Start `LocalStack` Docker container
+- Start `LocalStack` Docker container:
   ```
   DEBUG=1 docker compose up -d
   ```
 
-- \[Optional\] Debug logs are enabled so that we have more insights about what is happening. To monitor `localstack` Docker container logs, run the command below
+- \[Optional\] Debug logs are enabled so that we have more insights about what is happening. To monitor `localstack` Docker container logs, run the command below:
   ```
-  docker logs localstack -f
+  docker logs localstack
   ```
 
-- Initialize `LocalStack` by running the following script
+- Initialize `LocalStack` by running the following script:
   ```
   ./init-localstack.sh
   ```
@@ -91,7 +91,7 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 
 - **news-producer**
 
-  In a terminal and, inside `springboot-aws-localstack-dynamodb-lambda-sns-sqs` root folder, run the following command
+  In a terminal and, inside `springboot-aws-localstack-dynamodb-lambda-sns-sqs` root folder, run the following command:
   ```
   export AWS_REGION=eu-west-1 && export AWS_ACCESS_KEY_ID=key && export AWS_SECRET_ACCESS_KEY=secret && \
     ./mvnw clean spring-boot:run --projects news-producer
@@ -99,7 +99,7 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 
 - **news-consumer**
 
-  In another terminal and, inside `springboot-aws-localstack-dynamodb-lambda-sns-sqs` root folder, run the command below
+  In another terminal and, inside `springboot-aws-localstack-dynamodb-lambda-sns-sqs` root folder, run the command below:
   ```
   export AWS_REGION=eu-west-1 && export AWS_ACCESS_KEY_ID=key && export AWS_SECRET_ACCESS_KEY=secret && \
     ./mvnw clean spring-boot:run --projects news-consumer
@@ -109,16 +109,16 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 
 - ### Build Docker images
 
-  In a terminal and, inside `springboot-aws-localstack-dynamodb-lambda-sns-sqs` root folder, run the following script
+  In a terminal and, inside `springboot-aws-localstack-dynamodb-lambda-sns-sqs` root folder, run the following script:
   ```
-  ./docker-build.sh
+  ./build-docker-images.sh
   ```
 
 - ### Run Docker containers
 
   - **news-producer**
 
-    In a terminal, run the following command
+    In a terminal, run the following command:
     ```
     docker run --rm --name news-producer -p 9080:9080 \
       -e AWS_REGION=eu-west-1 -e AWS_ACCESS_KEY_ID=key -e AWS_SECRET_ACCESS_KEY=secret \
@@ -128,7 +128,7 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 
   - **news-consumer**
 
-    In a new terminal, run the command below
+    In a new terminal, run the command below:
     ```
     docker run --rm --name news-consumer -p 9081:9081 \
       -e AWS_REGION=eu-west-1 -e AWS_ACCESS_KEY_ID=key -e AWS_SECRET_ACCESS_KEY=secret \
@@ -148,28 +148,28 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 
 - **Creating news**
 
-  - In a terminal, run the following command
+  - In a terminal, run the following command:
     ```
     curl -i -X POST http://localhost:9080/api/news \
       -H 'Content-Type: application/json' \
       -d '{"title": "Palmeiras is three-time champion of the Copa Libertadores da América"}'
     ```
 
-    or to create news randomly
+    or to create news randomly:
     ```
     curl -i -X POST http://localhost:9080/api/news/randomly
     ```
 
-  - In `news-consumer` UI, the news should be displayed
+  - In `news-consumer` UI, the news should be displayed.
 
 - **Deleting news**
 
-  - In a terminal, run the following command
+  - In a terminal, run the following command:
     ```
     curl -i -X DELETE http://localhost:9080/api/news/<NEWS-ID>
     ```
 
-  - In `news-consumer` UI, the news should be removed
+  - In `news-consumer` UI, the news should be removed.
 
 ## Demo
 
@@ -179,15 +179,15 @@ In the `GIF` below, we use `news-producer` Swagger UI to create one random news.
 
 ## Shutdown
 
-- To stop applications, go to the terminal where they are running and press `Ctrl+C`
-- To stop and remove docker compose containers, network and volumes, go to a terminal and, inside `springboot-aws-localstack-dynamodb-lambda-sns-sqs` root folder, run the following command
+- To stop applications, go to the terminal where they are running and press `Ctrl+C`;
+- To stop and remove Docker Compose containers, network, and volumes, go to a terminal and, inside `springboot-aws-localstack-dynamodb-lambda-sns-sqs` root folder, run the following command:
   ```
   docker compose down -v
   ```
 
 ## Cleanup
 
-To remove the Docker images created by this project, go to a terminal and, inside `springboot-aws-localstack-dynamodb-lambda-sns-sqs` root folder, run the script below
+To remove the Docker images created by this project, go to a terminal and, inside `springboot-aws-localstack-dynamodb-lambda-sns-sqs` root folder, run the script below:
 ```
 ./remove-docker-images.sh
 ```
