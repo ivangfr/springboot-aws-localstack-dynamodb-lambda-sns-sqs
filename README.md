@@ -1,6 +1,6 @@
 # springboot-aws-localstack-dynamodb-lambda-sns-sqs
 
-In this project, we are going to use [`LocalStack`](https://localstack.cloud/) to simulate locally, some services provided by [`AWS Cloud`](https://aws.amazon.com/) such as: [`DynamoDB`](https://aws.amazon.com/dynamodb/), [`Lambda`](https://aws.amazon.com/lambda/), [`SNS`](https://aws.amazon.com/sns/) and [`SQS`](https://aws.amazon.com/sqs/). Also, in order to simplify the use of AWS managed services, we are going to use [`Spring Cloud AWS`](https://spring.io/projects/spring-cloud-aws).
+In this project, we will use [`LocalStack`](https://localstack.cloud/) to locally simulate some services provided by [`AWS Cloud`](https://aws.amazon.com/) such as: [`DynamoDB`](https://aws.amazon.com/dynamodb/), [`Lambda`](https://aws.amazon.com/lambda/), [`SNS`](https://aws.amazon.com/sns/) and [`SQS`](https://aws.amazon.com/sqs/). Additionally, to simplify the use of AWS managed services, we will use [`Spring Cloud AWS`](https://spring.io/projects/spring-cloud-aws).
 
 > **Note**: Also, take a look at the [`springboot-aws-localstack-opensearch-s3-secretsmanager`](https://github.com/ivangfr/springboot-aws-localstack-opensearch-s3-secretsmanager) repository. There, we have implemented two Spring Boot applications for indexing and searching movies. We also used LocalStack to simulate AWS Cloud services locally, such as [`OpenSearch`](https://aws.amazon.com/opensearch-service/), [`S3`](https://aws.amazon.com/s3/), and [`Secrets Manager`](https://aws.amazon.com/secrets-manager/).
 
@@ -25,7 +25,7 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 
 - ### news-producer
 
-  [`Spring Boot`](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/) Java Web application that exposes a REST API to manage news. It uses DynamoDB as database.
+  [`Spring Boot`](https://docs.spring.io/spring-boot/index.html) Java Web application that exposes a REST API to manage news. It uses DynamoDB as database.
 
   It has the following endpoints:
   ```
@@ -53,7 +53,7 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 
 ## Package dynamodb-lambda-function jar
 
-- In a terminal, make sure you inside `springboot-aws-localstack-dynamodb-lambda-sns-sqs` root folder:
+- In a terminal, make sure you inside the `springboot-aws-localstack-dynamodb-lambda-sns-sqs` root folder:
 
 - Run the following script:
   ```
@@ -63,7 +63,7 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 
 ## Start and Initialize LocalStack
 
-- In a terminal, make sure you are in inside `springboot-aws-localstack-dynamodb-lambda-sns-sqs` root folder:
+- In a terminal, make sure you are in inside the `springboot-aws-localstack-dynamodb-lambda-sns-sqs` root folder:
 
 - Start `LocalStack` Docker container:
   ```
@@ -91,7 +91,7 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 
 - **news-producer**
 
-  In a terminal and, inside `springboot-aws-localstack-dynamodb-lambda-sns-sqs` root folder, run the following command:
+  In a terminal and, inside the `springboot-aws-localstack-dynamodb-lambda-sns-sqs` root folder, run the following command:
   ```
   export AWS_REGION=eu-west-1 && export AWS_ACCESS_KEY_ID=key && export AWS_SECRET_ACCESS_KEY=secret && \
     ./mvnw clean spring-boot:run --projects news-producer
@@ -99,7 +99,7 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 
 - **news-consumer**
 
-  In another terminal and, inside `springboot-aws-localstack-dynamodb-lambda-sns-sqs` root folder, run the command below:
+  In another terminal and, inside the `springboot-aws-localstack-dynamodb-lambda-sns-sqs` root folder, run the command below:
   ```
   export AWS_REGION=eu-west-1 && export AWS_ACCESS_KEY_ID=key && export AWS_SECRET_ACCESS_KEY=secret && \
     ./mvnw clean spring-boot:run --projects news-consumer
@@ -109,7 +109,7 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 
 - ### Build Docker images
 
-  In a terminal and, inside `springboot-aws-localstack-dynamodb-lambda-sns-sqs` root folder, run the following script:
+  In a terminal and, inside the `springboot-aws-localstack-dynamodb-lambda-sns-sqs` root folder, run the following script:
   ```
   ./build-docker-images.sh
   ```
@@ -173,21 +173,21 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 
 ## Demo
 
-In the `GIF` below, we use `news-producer` Swagger UI to create one random news. Then, we delete the news created previously. Finally, we create more two news randomly.
+In the `GIF` below, we use `news-producer` Swagger UI to create one random news. Then, we delete the news created previously. Finally, we create more two more news randomly.
 
 ![demo](documentation/demo.gif)
 
 ## Shutdown
 
-- To stop applications, go to the terminal where they are running and press `Ctrl+C`;
-- To stop and remove Docker Compose containers, network, and volumes, go to a terminal and, inside `springboot-aws-localstack-dynamodb-lambda-sns-sqs` root folder, run the following command:
+- To stop the applications, go to the terminal where they are running and press `Ctrl+C`;
+- To stop and remove Docker Compose containers, network, and volumes, go to a terminal and, inside the `springboot-aws-localstack-dynamodb-lambda-sns-sqs` root folder, run the following command:
   ```
   docker compose down -v
   ```
 
 ## Cleanup
 
-To remove the Docker images created by this project, go to a terminal and, inside `springboot-aws-localstack-dynamodb-lambda-sns-sqs` root folder, run the script below:
+To remove the Docker images created by this project, go to a terminal and, inside the `springboot-aws-localstack-dynamodb-lambda-sns-sqs` root folder, run the script below:
 ```
 ./remove-docker-images.sh
 ```
