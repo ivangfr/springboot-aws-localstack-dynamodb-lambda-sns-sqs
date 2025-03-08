@@ -1,4 +1,4 @@
-package com.ivanfranchin.newsconsumer.controller;
+package com.ivanfranchin.newsconsumer.news;
 
 import com.ivanfranchin.newsconsumer.client.NewsProducerClient;
 import lombok.RequiredArgsConstructor;

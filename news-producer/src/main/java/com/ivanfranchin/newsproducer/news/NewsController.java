@@ -1,9 +1,7 @@
-package com.ivanfranchin.newsproducer.rest;
+package com.ivanfranchin.newsproducer.news;
 
-import com.ivanfranchin.newsproducer.model.News;
-import com.ivanfranchin.newsproducer.rest.dto.CreateNewsRequest;
-import com.ivanfranchin.newsproducer.service.NewsService;
-import com.ivanfranchin.newsproducer.service.RandomNewsGenerator;
+import com.ivanfranchin.newsproducer.news.model.News;
+import com.ivanfranchin.newsproducer.news.dto.CreateNewsRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

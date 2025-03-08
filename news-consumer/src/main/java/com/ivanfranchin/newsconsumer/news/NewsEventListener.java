@@ -1,6 +1,5 @@
-package com.ivanfranchin.newsconsumer.listener;
+package com.ivanfranchin.newsconsumer.news;
 
-import com.ivanfranchin.newsconsumer.event.NewsEvent;
 import io.awspring.cloud.sqs.annotation.SqsListener;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

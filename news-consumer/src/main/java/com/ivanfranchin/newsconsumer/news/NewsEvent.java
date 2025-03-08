@@ -1,4 +1,4 @@
-package com.ivanfranchin.newsconsumer.event;
+package com.ivanfranchin.newsconsumer.news;
 
 import java.util.Date;
 

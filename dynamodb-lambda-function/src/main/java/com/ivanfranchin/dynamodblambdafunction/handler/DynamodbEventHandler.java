@@ -2,8 +2,8 @@ package com.ivanfranchin.dynamodblambdafunction.handler;
 
 import com.amazonaws.services.lambda.runtime.events.DynamodbEvent;
 import com.amazonaws.services.lambda.runtime.events.models.dynamodb.AttributeValue;
-import com.ivanfranchin.dynamodblambdafunction.event.NewsEvent;
-import com.ivanfranchin.dynamodblambdafunction.publisher.NewsEventPublisher;
+import com.ivanfranchin.dynamodblambdafunction.news.NewsEvent;
+import com.ivanfranchin.dynamodblambdafunction.news.NewsEventPublisher;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

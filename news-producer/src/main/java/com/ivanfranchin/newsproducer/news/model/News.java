@@ -1,4 +1,4 @@
-package com.ivanfranchin.newsproducer.model;
+package com.ivanfranchin.newsproducer.news.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

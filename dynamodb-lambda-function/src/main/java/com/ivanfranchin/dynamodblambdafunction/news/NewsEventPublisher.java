@@ -1,6 +1,5 @@
-package com.ivanfranchin.dynamodblambdafunction.publisher;
+package com.ivanfranchin.dynamodblambdafunction.news;
 
-import com.ivanfranchin.dynamodblambdafunction.event.NewsEvent;
 import com.ivanfranchin.dynamodblambdafunction.properties.AwsProperties;
 import io.awspring.cloud.sns.core.SnsTemplate;
 import lombok.RequiredArgsConstructor;
