@@ -28,7 +28,7 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
   [`Spring Boot`](https://docs.spring.io/spring-boot/index.html) Java Web application that exposes a REST API to manage news. It uses DynamoDB as database.
 
   It has the following endpoints:
-  ```
+  ```text
      GET /api/news
      GET /api/news/{id}
     POST /api/news {"title": "..."}
@@ -56,7 +56,7 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 - In a terminal, make sure you inside the `springboot-aws-localstack-dynamodb-lambda-sns-sqs` root folder:
 
 - Run the following script:
-  ```
+  ```bash
   ./package-dynamodb-lambda-function-jar.sh
   ```
   When `Maven` packaging finishes, the jar file generated in `dynamodb-lambda-function/target` folder is copied to `dynamodb-lambda-function/shared` folder.
@@ -66,17 +66,17 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 - In a terminal, make sure you are in inside the `springboot-aws-localstack-dynamodb-lambda-sns-sqs` root folder:
 
 - Start `LocalStack` Docker container:
-  ```
+  ```bash
   DEBUG=1 docker compose up -d
   ```
 
 - \[Optional\] Debug logs are enabled so that we have more insights about what is happening. To monitor `localstack` Docker container logs, run the command below:
-  ```
+  ```bash
   docker logs localstack
   ```
 
 - Initialize `LocalStack` by running the following script:
-  ```
+  ```bash
   ./init-localstack.sh
   ```
   The script will create:
@@ -92,7 +92,7 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 - **news-producer**
 
   In a terminal and, inside the `springboot-aws-localstack-dynamodb-lambda-sns-sqs` root folder, run the following command:
-  ```
+  ```bash
   export AWS_REGION=eu-west-1 && export AWS_ACCESS_KEY_ID=key && export AWS_SECRET_ACCESS_KEY=secret && \
     ./mvnw clean spring-boot:run --projects news-producer
   ```
@@ -100,7 +100,7 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 - **news-consumer**
 
   In another terminal and, inside the `springboot-aws-localstack-dynamodb-lambda-sns-sqs` root folder, run the command below:
-  ```
+  ```bash
   export AWS_REGION=eu-west-1 && export AWS_ACCESS_KEY_ID=key && export AWS_SECRET_ACCESS_KEY=secret && \
     ./mvnw clean spring-boot:run --projects news-consumer
   ```
@@ -110,7 +110,7 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 - ### Build Docker images
 
   In a terminal and, inside the `springboot-aws-localstack-dynamodb-lambda-sns-sqs` root folder, run the following script:
-  ```
+  ```bash
   ./build-docker-images.sh
   ```
 
@@ -119,7 +119,7 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
   - **news-producer**
 
     In a terminal, run the following command:
-    ```
+    ```bash
     docker run --rm --name news-producer -p 9080:9080 \
       -e AWS_REGION=eu-west-1 -e AWS_ACCESS_KEY_ID=key -e AWS_SECRET_ACCESS_KEY=secret \
       --network=springboot-aws-localstack-dynamodb-lambda-sns-sqs_default \
@@ -129,7 +129,7 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
   - **news-consumer**
 
     In a new terminal, run the command below:
-    ```
+    ```bash
     docker run --rm --name news-consumer -p 9081:9081 \
       -e AWS_REGION=eu-west-1 -e AWS_ACCESS_KEY_ID=key -e AWS_SECRET_ACCESS_KEY=secret \
       -e NEWS_PRODUCER_URL=http://news-producer:9080 \
@@ -149,14 +149,14 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 - **Creating news**
 
   - In a terminal, run the following command:
-    ```
+    ```bash
     curl -i -X POST http://localhost:9080/api/news \
       -H 'Content-Type: application/json' \
       -d '{"title": "Palmeiras is three-time champion of the Copa Libertadores da América"}'
     ```
 
     or to create news randomly:
-    ```
+    ```bash
     curl -i -X POST http://localhost:9080/api/news/randomly
     ```
 
@@ -165,7 +165,7 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 - **Deleting news**
 
   - In a terminal, run the following command:
-    ```
+    ```bash
     curl -i -X DELETE http://localhost:9080/api/news/<NEWS-ID>
     ```
 
@@ -181,13 +181,13 @@ In the `GIF` below, we use `news-producer` Swagger UI to create one random news.
 
 - To stop the applications, go to the terminal where they are running and press `Ctrl+C`;
 - To stop and remove Docker Compose containers, network, and volumes, go to a terminal and, inside the `springboot-aws-localstack-dynamodb-lambda-sns-sqs` root folder, run the following command:
-  ```
+  ```bash
   docker compose down -v
   ```
 
 ## Cleanup
 
 To remove the Docker images created by this project, go to a terminal and, inside the `springboot-aws-localstack-dynamodb-lambda-sns-sqs` root folder, run the script below:
-```
+```bash
 ./remove-docker-images.sh
 ```
