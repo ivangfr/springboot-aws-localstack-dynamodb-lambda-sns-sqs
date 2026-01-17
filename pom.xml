@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.5.9</version>
+        <version>4.0.1</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.ivanfranchin</groupId>
@@ -28,9 +28,9 @@
         <url/>
     </scm>
     <properties>
-        <java.version>21</java.version>
+        <java.version>25</java.version>
         <amazon-awssdk.version>2.41.9</amazon-awssdk.version>
-        <spring-cloud-aws.version>3.4.2</spring-cloud-aws.version>
+        <spring-cloud-aws.version>4.0.0-M1</spring-cloud-aws.version>
     </properties>
     <dependencyManagement>
         <dependencies>
