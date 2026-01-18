@@ -2,7 +2,7 @@ services:
 
   localstack:
     container_name: 'localstack'
-    image: 'localstack/localstack:4.10.0'
+    image: 'localstack/localstack:4.12.0'
     ports:
       - '127.0.0.1:4510-4559:4510-4559'  # external service port range
       - '127.0.0.1:4566:4566'            # LocalStack Edge Proxy
